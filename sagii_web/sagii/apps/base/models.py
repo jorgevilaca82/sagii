@@ -46,7 +46,7 @@ class PessoaFisica(Pessoa):
         OP = 'O+'
         ON = 'O-'
     
-    tipo_sanguineo = models.CharField(max_lenght=3, choices=TipoSanguineo)
+    tipo_sanguineo = models.CharField(max_length=3, choices=TipoSanguineo)
 
     
 class PessoaJuridica(Pessoa):
