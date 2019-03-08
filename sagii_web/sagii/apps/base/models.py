@@ -15,8 +15,8 @@ class PessoaFisica(Pessoa):
         FEMININO = 'F'
     
     SEXO_CHOICES = (
-        (Genero.MASCULINO, _('Masculino')),
-        (Genero.FEMININO, _('Feminino')),
+        (Genero.MASCULINO.value, _('Masculino')),
+        (Genero.FEMININO.value, _('Feminino')),
     )
 
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES)
@@ -28,10 +28,10 @@ class PessoaFisica(Pessoa):
         DIVORCIADO = auto()
 
     ESTADO_CIVIL_CHOICES = (
-        (EstadoCivil.SOLTEIRO, _('Solteiro')),
-        (EstadoCivil.CASADO, _('Casado')),
-        (EstadoCivil.VIUVO, _('Viúvo')),
-        (EstadoCivil.DIVORCIADO, _('Divorciado')),
+        (EstadoCivil.SOLTEIRO.value, _('Solteiro')),
+        (EstadoCivil.CASADO.value, _('Casado')),
+        (EstadoCivil.VIUVO.value, _('Viúvo')),
+        (EstadoCivil.DIVORCIADO.value, _('Divorciado')),
     )
 
     estado_civil = models.IntegerField(choices=ESTADO_CIVIL_CHOICES)
@@ -57,10 +57,10 @@ class Endereco(models.Model):
     class Tipo(IntEnum):
         COMERCIAL = 1
         RESIDENCIAL = 2
-    
+
     TIPOS_CHOICES = (
-        (Tipo.COMERCIAL, _('Comercial')),
-        (Tipo.RESIDENCIAL, _('Residencial')),
+        (Tipo.COMERCIAL.value, _('Comercial')),
+        (Tipo.RESIDENCIAL.value, _('Residencial')),
     )
 
     tipo = models.IntegerField(choices=TIPOS_CHOICES)
@@ -69,6 +69,9 @@ class Endereco(models.Model):
     complemento = models.CharField(max_length=255)
     bairro = models.CharField(max_length=120)
     numero = models.CharField(max_length=120)
+    cidade = models.CharField(max_length=120)
+    uf = models.CharField(max_length=2)
+
     
     # Define se é o endereço principal
     principal = models.BooleanField()
