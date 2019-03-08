@@ -7,6 +7,10 @@ from sagii.commons import ChoiceEnumCharValueMeta
 class Pessoa(models.Model):
     nome_razao_social = models.CharField(max_length=255)
 
+    # ** Sets **
+    # contatos_sociais
+    # enderecos
+    # documentos
 
 class PessoaFisica(Pessoa):
     
@@ -26,6 +30,7 @@ class PessoaFisica(Pessoa):
         CASADO = auto()
         VIUVO = auto()
         DIVORCIADO = auto()
+        UNIAO_ESTAVEL = auto()
 
     ESTADO_CIVIL_CHOICES = (
         (EstadoCivil.SOLTEIRO.value, _('Solteiro')),
@@ -57,10 +62,12 @@ class Endereco(models.Model):
     class Tipo(IntEnum):
         COMERCIAL = 1
         RESIDENCIAL = 2
+        RURAL = 3
 
     TIPOS_CHOICES = (
         (Tipo.COMERCIAL.value, _('Comercial')),
         (Tipo.RESIDENCIAL.value, _('Residencial')),
+        (Tipo.RURAL.value, _('Rural')),
     )
 
     tipo = models.IntegerField(choices=TIPOS_CHOICES)
@@ -76,4 +83,32 @@ class Endereco(models.Model):
     # Define se é o endereço principal
     principal = models.BooleanField()
 
-    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
+    pessoa_id = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='enderecos')
+
+class ContatoSocial(models.Model):
+    class Tipo(Enum, metaclass=ChoiceEnumCharValueMeta):
+        WHATSAPP = 'Whatsapp'
+        TELEGRAM = 'Telegram'
+        FACEBOOK = 'Facebook'
+        INSTAGRAM = 'Instagram'
+        TWITTER = 'Twitter'
+        WEBSITE = 'Website'
+        EMAIL = 'Email'
+        SKYPE = 'Skype'
+        LINKEDIN = 'Linkedin'
+    
+    tipo = models.CharField(max_length=60, choices=Tipo)
+    valor = models.CharField(max_length=60)
+    pessoa_id = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='contatos_sociais')
+
+class DocumentoPessoalTipo(models.Model):
+    # RG CTPS CNH TITULO_ELEITOR PASSAPORTE RESERVISTA CERTIDAO_NASCIMENTO
+    nome = models.CharField(max_length=20)
+
+class DocumentoPessoal(models.Model):
+    class Meta:
+        unique_together = ('tipo_id', 'pessoa_id')
+
+    tipo_id = models.ForeignKey(DocumentoPessoalTipo, on_delete=models.PROTECT)
+    pessoa_id = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='documentos')
+    observacoes = models.TextField()
