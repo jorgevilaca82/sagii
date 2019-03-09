@@ -1,7 +1,7 @@
 from django.db import models
 from enum import IntEnum, Enum, auto
 from django.utils.translation import gettext_lazy as _
-from sagii.commons import ChoiceEnumCharValueMeta
+from sagii.commons import ChoiceEnumCharValueMeta, AutoNameEnum
 # Create your models here.
 
 class Pessoa(models.Model):
@@ -11,6 +11,7 @@ class Pessoa(models.Model):
     # contatos_sociais
     # enderecos
     # documentos
+
 
 class PessoaFisica(Pessoa):
     
@@ -59,6 +60,10 @@ class PessoaJuridica(Pessoa):
 
 
 class Endereco(models.Model):
+
+    class Meta:
+        unique_together = ('pessoa', 'principal')
+
     class Tipo(IntEnum):
         COMERCIAL = 1
         RESIDENCIAL = 2
@@ -83,32 +88,36 @@ class Endereco(models.Model):
     # Define se é o endereço principal
     principal = models.BooleanField()
 
-    pessoa_id = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='enderecos')
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='enderecos')
+
 
 class ContatoSocial(models.Model):
-    class Tipo(Enum, metaclass=ChoiceEnumCharValueMeta):
-        WHATSAPP = 'Whatsapp'
-        TELEGRAM = 'Telegram'
-        FACEBOOK = 'Facebook'
-        INSTAGRAM = 'Instagram'
-        TWITTER = 'Twitter'
-        WEBSITE = 'Website'
-        EMAIL = 'Email'
-        SKYPE = 'Skype'
-        LINKEDIN = 'Linkedin'
+
+    class Tipo(AutoNameEnum, metaclass=ChoiceEnumCharValueMeta):
+        WHATSAPP = auto()
+        TELEGRAM = auto()
+        FACEBOOK = auto()
+        INSTAGRAM = auto()
+        TWITTER = auto()
+        WEBSITE = auto()
+        EMAIL = auto()
+        SKYPE = auto()
+        LINKEDIN = auto()
     
     tipo = models.CharField(max_length=60, choices=Tipo)
     valor = models.CharField(max_length=60)
-    pessoa_id = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='contatos_sociais')
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='contatos_sociais')
+
 
 class DocumentoPessoalTipo(models.Model):
     # RG CTPS CNH TITULO_ELEITOR PASSAPORTE RESERVISTA CERTIDAO_NASCIMENTO
     nome = models.CharField(max_length=20)
 
+
 class DocumentoPessoal(models.Model):
     class Meta:
-        unique_together = ('tipo_id', 'pessoa_id')
+        unique_together = ('tipo', 'pessoa')
 
-    tipo_id = models.ForeignKey(DocumentoPessoalTipo, on_delete=models.PROTECT)
-    pessoa_id = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='documentos')
+    tipo = models.ForeignKey(DocumentoPessoalTipo, on_delete=models.PROTECT)
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='documentos')
     observacoes = models.TextField()

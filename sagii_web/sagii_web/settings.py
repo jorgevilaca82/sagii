@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'sagii.apps.base',
+    'sagii.apps.academico',
 ]
 
 MIDDLEWARE = [
