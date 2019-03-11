@@ -107,6 +107,6 @@ venv.bak/
 .vscode
 
 # desabilitada as migrações temporariamente
-migrations/*.py
 sagii_web/sagii/apps/academico/migrations/0001_initial.py
 sagii_web/sagii/apps/base/migrations/0001_initial.py
+sagii_web/sagii/apps/base/migrations/0002_auto_20190310_1241.py

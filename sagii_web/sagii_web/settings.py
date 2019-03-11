@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'localflavor',
     'sagii.apps.base',
-    'sagii.apps.academico',
+    # 'sagii.apps.academico',
 ]
 
 MIDDLEWARE = [

@@ -1,5 +1,5 @@
 # codigo comum compartilhado pelas apps
-from enum import EnumMeta
+from enum import Enum, EnumMeta
 
 class ChoiceEnumCharValueMeta(EnumMeta):
     def __iter__(self):

@@ -1,6 +1,7 @@
 from django.db import models
 from sagii.apps.base.models import PessoaFisica
 from enum import IntEnum, auto
+from django.utils.translation import gettext_lazy as _
 
 # import de models para inclusão nas migrations
 from .processo_seletivo.models import * # no-qa 
@@ -14,9 +15,11 @@ class Aluno(models.Model):
 
     class Status(IntEnum):
         MATRICULADO = auto()
+        EVADIDO = auto()
 
     ALUNO_STATUS_CHOICES = (
-        (Status.MATRICULADO.value, _('Matriculado'))
+        (Status.MATRICULADO.value, _('Matriculado')),
+        (Status.EVADIDO.value, _('Evadido')),
     )
 
     status = models.IntegerField(choices=ALUNO_STATUS_CHOICES)
