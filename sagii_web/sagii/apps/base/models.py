@@ -123,6 +123,7 @@ class ContatoSocial(models.Model):
     class Meta:
         verbose_name = _('Contato Social')
         verbose_name_plural = _('Contatos Sociais')
+        unique_together = ('pessoa', 'tipo')
 
     class Tipo(AutoNameEnum, metaclass=ChoiceEnumCharValueMeta):
         WHATSAPP = auto()
@@ -169,3 +170,19 @@ class DocumentoPessoal(models.Model):
 
     def __str__(self):
         return '{}: {}'.format(self.tipo, self.valor)
+
+
+class Telefone(models.Model):
+    
+    class Meta:
+        unique_together = ('numero', 'pessoa')
+
+    class Tipo(IntEnum):
+        FIXO = auto()
+        CEL = auto()
+
+    tipo = models.IntegerField(choices=Tipo)
+
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='telefones')
+    numero = models.CharField(max_length=120)
+    observacoes = models.TextField()

@@ -1,5 +1,6 @@
 from django.db import models
-from sagii.apps.base.models import PessoaFisica
+from sagii.apps.base import models as bm # (bm) base models
+from sagii.apps.recursos_humanos import models as rhm
 from enum import IntEnum, auto
 from django.utils.translation import gettext_lazy as _
 
@@ -26,5 +27,27 @@ class Aluno(models.Model):
 
     # RA - Registro de Aluno (identificador de matricula)
     ra = models.CharField(max_length=255)
-    pessoa_fisica = models.ForeignKey(PessoaFisica, on_delete=models.PROTECT)
+    pessoa_fisica = models.ForeignKey(bm.PessoaFisica, on_delete=models.PROTECT)
     
+
+class Professor(rhm.Funcionario):
+    
+    class Meta:
+        pass
+    
+    class Titulacao(IntEnum):
+        GRADUACAO = auto()
+        ESPECIALIZACAO = auto()
+        MESTRADO = auto()
+        DOUTORADO = auto()
+        POS_DOUTORADO = auto()
+    
+    PROFESSOR_TITULACAO_CHOICES = (
+        (Titulacao.GRADUCAO.value, _('Gradução')),
+        (Titulacao.ESPECIALIZACAO.value, _('Especialização')),
+        (Titulacao.MESTRADO.value, _('Mestrador')),
+        (Titulacao.DOUTORADO.value, _('Doutorado')),
+        (Titulacao.POS_DOUTORADO.value, _('Pós Doutorado')),
+    )
+    
+    titulacao = models.IntegerField(choices=PROFESSOR_TITULACAO_CHOICES)
