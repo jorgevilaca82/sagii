@@ -76,6 +76,11 @@ class PessoaFisica(Pessoa):
 
     
 class PessoaJuridica(Pessoa):
+    
+    class Meta:
+        verbose_name = _('Pessoa Jurídica')
+        verbose_name_plural = _('Pessoas Jurídicas')
+
     cnpj = lf_models.BRCNPJField()
 
 
@@ -115,6 +120,10 @@ class Endereco(models.Model):
 
 class ContatoSocial(models.Model):
 
+    class Meta:
+        verbose_name = _('Contato Social')
+        verbose_name_plural = _('Contatos Sociais')
+
     class Tipo(AutoNameEnum, metaclass=ChoiceEnumCharValueMeta):
         WHATSAPP = auto()
         TELEGRAM = auto()
@@ -135,6 +144,11 @@ class ContatoSocial(models.Model):
 
 
 class DocumentoPessoalTipo(models.Model):
+
+    class Meta:
+        verbose_name = _('Documento Pessoal Tipo')
+        verbose_name_plural = _('Documentos Pessoais Tipos')
+
     # RG CTPS CNH TITULO_ELEITOR PASSAPORTE RESERVISTA CERTIDAO_NASCIMENTO
     nome = models.CharField(max_length=20)
 
@@ -145,6 +159,8 @@ class DocumentoPessoalTipo(models.Model):
 class DocumentoPessoal(models.Model):
     class Meta:
         unique_together = ('tipo', 'pessoa')
+        verbose_name = _('Documento Pessoal')
+        verbose_name_plural = _('Documentos Pessoais')
 
     tipo = models.ForeignKey(DocumentoPessoalTipo, on_delete=models.PROTECT)
     valor = models.CharField(max_length=60)
