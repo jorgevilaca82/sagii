@@ -181,7 +181,12 @@ class Telefone(models.Model):
         FIXO = auto()
         CEL = auto()
 
-    tipo = models.IntegerField(choices=Tipo)
+    TELEFONE_TIPO_CHOICES = (
+        (Tipo.FIXO.value, _('Tel. Fixo')),
+        (Tipo.CEL.value, _('Tel. Celular')),
+    )
+
+    tipo = models.IntegerField(choices=TELEFONE_TIPO_CHOICES)
 
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='telefones')
     numero = models.CharField(max_length=120)
