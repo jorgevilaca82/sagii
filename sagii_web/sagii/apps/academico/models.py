@@ -3,6 +3,9 @@ from sagii.apps.base import models as bm # (bm) base models
 from sagii.apps.recursos_humanos import models as rhm
 from enum import IntEnum, auto
 from django.utils.translation import gettext_lazy as _
+from sagii.apps.base import models as bm
+from sagii.apps.administracao import models as adm
+from sagii.apps.recursos_humanos import models as rhm
 
 # import de models para inclusão nas migrations
 from .processo_seletivo.models import * # no-qa 
@@ -51,3 +54,24 @@ class Professor(rhm.Funcionario):
     )
     
     titulacao = models.IntegerField(choices=PROFESSOR_TITULACAO_CHOICES)
+
+
+class Campus(bm.PessoaJuridica):
+    pass
+
+
+class DiretoriaEnsino(adm.Setor):
+    
+    class Meta:
+        pass
+
+    diretor = models.ForeignKey(rhm.Funcionario)
+
+
+class Curso(models.Model):
+        
+    class Meta:
+        pass
+
+    # Diretoria de Ensino (de)
+    de = models.ForeignKey(DiretoriaEnsino)
