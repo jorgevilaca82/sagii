@@ -1,6 +1,7 @@
 from django.db import models
 
 from sagii.apps.base import models as bm # (bm) base models
+from sagii.apps.administracao import models as am # (am) administracao models
 from enum import IntEnum, auto
 from django.utils.translation import gettext_lazy as _
 
@@ -33,3 +34,5 @@ class Funcionario(bm.PessoaFisica):
     matricula = models.Charfield(max_length=25)
 
     empregador = models.ForeignKey(bm.PessoaJuridica, on_delete=models.PROTECT)
+
+    setor_lotacao = models.ForeignKey(am.Setor, on_delete=models.PROTECT)

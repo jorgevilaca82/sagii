@@ -83,6 +83,8 @@ class PessoaJuridica(Pessoa):
 
     cnpj = lf_models.BRCNPJField()
 
+    matriz = models.ForeignKey('self', on_delete=models.PROTECT, related_name='filiais', null=True)
+
 
 class Endereco(models.Model):
 
