@@ -3,4 +3,6 @@ from django.http import HttpResponse
 # Create your views here.
 
 def index(request):
-    return HttpResponse("saggi apps base index")
+    import locale, calendar
+    locale.setlocale(locale.LC_ALL, 'pt-BR')
+    return HttpResponse(', '.join(list(calendar.day_name)))
