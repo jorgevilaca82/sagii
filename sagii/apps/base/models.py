@@ -33,7 +33,7 @@ class PessoaFisica(Pessoa):
         (Genero.FEMININO.value, _('Feminino')),
     )
 
-    sexo = models.CharField(max_length=1, choices=SEXO_CHOICES)
+    sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, null=True, blank=True)
 
     class EstadoCivil(IntEnum):
         SOLTEIRO = auto()
@@ -49,7 +49,7 @@ class PessoaFisica(Pessoa):
         (EstadoCivil.DIVORCIADO.value, _('Divorciado')),
     )
 
-    estado_civil = models.IntegerField(choices=ESTADO_CIVIL_CHOICES)
+    estado_civil = models.IntegerField(choices=ESTADO_CIVIL_CHOICES, default=EstadoCivil.SOLTEIRO)
 
     class TipoSanguineo(Enum, metaclass=ChoiceEnumCharValueMeta):
         AP = 'A+'
@@ -61,11 +61,11 @@ class PessoaFisica(Pessoa):
         OP = 'O+'
         ON = 'O-'
     
-    tipo_sanguineo = models.CharField(max_length=3, choices=TipoSanguineo)
+    tipo_sanguineo = models.CharField(max_length=3, choices=TipoSanguineo, blank=True, null=True)
 
-    natural_cidade = models.CharField(max_length=120)
+    natural_cidade = models.CharField(max_length=120, blank=True, null=True)
 
-    natural_uf = lf_models.BRStateField()
+    natural_uf = lf_models.BRStateField(blank=True, null=True)
 
     class NacionalidadeTipo(Enum, metaclass=ChoiceEnumCharValueMeta):
         BRASILEIRO = 'BR'
@@ -76,13 +76,24 @@ class PessoaFisica(Pessoa):
         (NacionalidadeTipo.ESTRANGEIRO.value, _('Estrangeiro')),
     )
 
-    nacionalidade = models.CharField(max_length=3, choices=NACIONALIDADE_TIPO_CHOICES, blank=True, null=True)
+    nacionalidade = models.CharField(
+        max_length=3, 
+        choices=NACIONALIDADE_TIPO_CHOICES,
+        default=NacionalidadeTipo.BRASILEIRO.value,
+        blank=True, 
+        null=True
+    )
 
     falecido = models.BooleanField(default=False)
 
     cpf = lf_models.BRCPFField()
 
-    dependentes = models.ManyToManyField('self', through='Dependente', through_fields=('responsavel', 'dependente'), symmetrical=False)
+    dependentes = models.ManyToManyField(
+        'self', 
+        through='RelacaoDependencia', 
+        through_fields=('responsavel', 'dependente'), 
+        symmetrical=False
+    )
 
     def __str__(self):
         return '{} ({})'.format(self.nome_razao_social, self.cpf)
@@ -91,30 +102,36 @@ class PessoaFisica(Pessoa):
         return self.__str__()
 
 
-class Dependente(models.Model):
-    responsavel = models.ForeignKey(PessoaFisica, on_delete=models.PROTECT, related_name='_dependentes')
-    dependente = models.ForeignKey(PessoaFisica, on_delete=models.CASCADE, related_name='_responsaveis')
+class RelacaoDependencia(models.Model):
 
-# class PessoaFisicaResponsavel(PessoaFisica):
+    responsavel = models.ForeignKey(
+        PessoaFisica, 
+        on_delete=models.PROTECT, 
+        related_name='_responsaveis'
+    )
 
-#     dependente = models.ForeignKey(PessoaFisica, on_delete=models.PROTECT, related_name='dependentes')
-#     principal = models.BooleanField(default=False)
+    dependente = models.ForeignKey(
+        PessoaFisica, 
+        on_delete=models.CASCADE, 
+        related_name='_dependentes'
+    )
 
-#     class GrauParentesco(IntEnum):
-#         PAI_MAE = auto()
-#         AVO = auto()
-#         TIO = auto()
-#         OUTRO = auto()
+    class GrauParentesco(IntEnum):
+        PAI_MAE = auto()
+        AVO = auto()
+        TIO = auto()
+        OUTRO = auto()
 
-#     GRAU_PARENTESCO_CHOICES = (
-#         (GrauParentesco.PAI_MAE.value, _('Pai/Mãe')),
-#         (GrauParentesco.AVO.value, _('Avô/Avó')),
-#         (GrauParentesco.TIO.value, _('Tio/Tia')),
-#         (GrauParentesco.OUTRO.value, _('Outro')),
-#     )
+    GRAU_PARENTESCO_CHOICES = (
+        (GrauParentesco.PAI_MAE.value, _('Pai/Mãe')),
+        (GrauParentesco.AVO.value, _('Avô/Avó')),
+        (GrauParentesco.TIO.value, _('Tio/Tia')),
+        (GrauParentesco.OUTRO.value, _('Outro')),
+    )
 
-#     grau_parentesco = models.IntegerField(choices=GRAU_PARENTESCO_CHOICES, null=True)
-    grau_parentesco_outro = models.CharField(max_length=60, null=True)
+    grau_parentesco = models.IntegerField(choices=GRAU_PARENTESCO_CHOICES, null=True)
+
+    grau_parentesco_outro = models.CharField(max_length=60, blank=True, null=True)
     
 
 class PessoaJuridica(Pessoa):
@@ -149,7 +166,7 @@ class Endereco(models.Model):
     tipo = models.IntegerField(choices=TIPOS_CHOICES)
     cep = lf_models.BRPostalCodeField()
     logradouro = models.CharField(max_length=255)
-    complemento = models.CharField(max_length=255)
+    complemento = models.CharField(max_length=255, blank=True, null=True)
     bairro = models.CharField(max_length=120)
     numero = models.CharField(max_length=120)
     cidade = models.CharField(max_length=120)

@@ -9,7 +9,7 @@ class EnderecoInline(admin.StackedInline):
 
     fieldsets = (
         (None, {'fields': (
-            ('cep', 'logradouro', 'numero'), 
+            ('tipo', 'cep', 'logradouro', 'numero'), 
             ('bairro', 'cidade', 'uf'), 
             ('complemento', 'principal')
         )}),
@@ -62,3 +62,7 @@ class PessoaJuridicaAdmin(PessoaAdminMixin):
 class DocumentoPessoalTipoAdmin(admin.ModelAdmin):
     pass
 
+
+@admin.register(bm.RelacaoDependencia)
+class RelacaoDependenciaAdmin(admin.ModelAdmin):
+    pass
