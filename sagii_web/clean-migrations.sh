@@ -1,0 +1,1 @@
+find . -path "./sagii/*/migrations/*.py" -not -name "__init__.py" -delete
