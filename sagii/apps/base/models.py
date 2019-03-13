@@ -6,6 +6,7 @@ from localflavor.br import br_states, models as lf_models
 # https://django-localflavor.readthedocs.io/en/latest/localflavor/br/
 
 class Pessoa(models.Model):
+    
     nome_razao_social = models.CharField(max_length=255)
 
     # ** Sets **
@@ -66,7 +67,22 @@ class PessoaFisica(Pessoa):
 
     natural_uf = lf_models.BRStateField()
 
+    class NacionalidadeTipo(Enum, metaclass=ChoiceEnumCharValueMeta):
+        BRASILEIRO = 'BR'
+        ESTRANGEIRO = 'EST'
+
+    NACIONALIDADE_TIPO_CHOICES = (
+        (NacionalidadeTipo.BRASILEIRO.value, _('Brasileiro')),
+        (NacionalidadeTipo.ESTRANGEIRO.value, _('Estrangeiro')),
+    )
+
+    nacionalidade = models.CharField(max_length=3, choices=NACIONALIDADE_TIPO_CHOICES, blank=True, null=True)
+
+    falecido = models.BooleanField(default=False)
+
     cpf = lf_models.BRCPFField()
+
+    dependentes = models.ManyToManyField('self', through='Dependente', through_fields=('responsavel', 'dependente'), symmetrical=False)
 
     def __str__(self):
         return '{} ({})'.format(self.nome_razao_social, self.cpf)
@@ -74,7 +90,33 @@ class PessoaFisica(Pessoa):
     def __unicode__(self):
         return self.__str__()
 
+
+class Dependente(models.Model):
+    responsavel = models.ForeignKey(PessoaFisica, on_delete=models.PROTECT, related_name='_dependentes')
+    dependente = models.ForeignKey(PessoaFisica, on_delete=models.CASCADE, related_name='_responsaveis')
+
+# class PessoaFisicaResponsavel(PessoaFisica):
+
+#     dependente = models.ForeignKey(PessoaFisica, on_delete=models.PROTECT, related_name='dependentes')
+#     principal = models.BooleanField(default=False)
+
+#     class GrauParentesco(IntEnum):
+#         PAI_MAE = auto()
+#         AVO = auto()
+#         TIO = auto()
+#         OUTRO = auto()
+
+#     GRAU_PARENTESCO_CHOICES = (
+#         (GrauParentesco.PAI_MAE.value, _('Pai/Mãe')),
+#         (GrauParentesco.AVO.value, _('Avô/Avó')),
+#         (GrauParentesco.TIO.value, _('Tio/Tia')),
+#         (GrauParentesco.OUTRO.value, _('Outro')),
+#     )
+
+#     grau_parentesco = models.IntegerField(choices=GRAU_PARENTESCO_CHOICES, null=True)
+    grau_parentesco_outro = models.CharField(max_length=60, null=True)
     
+
 class PessoaJuridica(Pessoa):
     
     class Meta:
@@ -160,6 +202,7 @@ class DocumentoPessoalTipo(models.Model):
 
 
 class DocumentoPessoal(models.Model):
+    
     class Meta:
         unique_together = ('tipo', 'pessoa')
         verbose_name = _('Documento Pessoal')
