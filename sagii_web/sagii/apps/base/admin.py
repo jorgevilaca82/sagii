@@ -26,11 +26,17 @@ class DocumentoPessoalInline(admin.TabularInline):
     extra = 1
 
 
+class TelefoneInline(admin.TabularInline):
+    model = bm.Telefone
+    extra = 1
+
+
 class PessoaAdminMixin(admin.ModelAdmin):
     inlines = (
         DocumentoPessoalInline, 
         EnderecoInline, 
-        ContatoSocialInline
+        ContatoSocialInline,
+        TelefoneInline,
     )
 
 

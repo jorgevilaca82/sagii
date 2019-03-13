@@ -46,7 +46,7 @@ class Professor(rhm.Funcionario):
         POS_DOUTORADO = auto()
     
     PROFESSOR_TITULACAO_CHOICES = (
-        (Titulacao.GRADUCAO.value, _('Gradução')),
+        (Titulacao.GRADUACAO.value, _('Gradução')),
         (Titulacao.ESPECIALIZACAO.value, _('Especialização')),
         (Titulacao.MESTRADO.value, _('Mestrador')),
         (Titulacao.DOUTORADO.value, _('Doutorado')),
@@ -65,7 +65,7 @@ class DiretoriaEnsino(adm.Setor):
     class Meta:
         pass
 
-    diretor = models.ForeignKey(rhm.Funcionario)
+    diretor = models.ForeignKey(rhm.Funcionario, on_delete=models.PROTECT)
 
 
 class Curso(models.Model):
@@ -74,4 +74,4 @@ class Curso(models.Model):
         pass
 
     # Diretoria de Ensino (de)
-    de = models.ForeignKey(DiretoriaEnsino)
+    de = models.ForeignKey(DiretoriaEnsino, on_delete=models.PROTECT)

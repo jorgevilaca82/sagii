@@ -168,7 +168,7 @@ class DocumentoPessoal(models.Model):
     tipo = models.ForeignKey(DocumentoPessoalTipo, on_delete=models.PROTECT)
     valor = models.CharField(max_length=60)
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='documentos')
-    observacoes = models.TextField()
+    observacoes = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return '{}: {}'.format(self.tipo, self.valor)
@@ -192,4 +192,4 @@ class Telefone(models.Model):
 
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='telefones')
     numero = models.CharField(max_length=120)
-    observacoes = models.TextField()
+    observacoes = models.TextField(null=True, blank=True)

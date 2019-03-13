@@ -31,7 +31,7 @@ class Funcionario(bm.PessoaFisica):
     
     tipo = models.IntegerField(choices=FUNCIONARIO_TIPO_CHOICES)
 
-    matricula = models.Charfield(max_length=25)
+    matricula = models.CharField(max_length=25)
 
     empregador = models.ForeignKey(bm.PessoaJuridica, on_delete=models.PROTECT)
 

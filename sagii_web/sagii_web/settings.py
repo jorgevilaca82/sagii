@@ -40,7 +40,9 @@ INSTALLED_APPS = [
 
     'localflavor',
     'sagii.apps.base',
-    # 'sagii.apps.academico',
+    'sagii.apps.administracao',
+    'sagii.apps.academico',
+    'sagii.apps.recursos_humanos',
 ]
 
 MIDDLEWARE = [
