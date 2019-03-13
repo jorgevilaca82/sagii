@@ -1,6 +1,4 @@
 include LICENSE
 include README.rst
-recursive-include sagii_web/static *
-recursive-include sagii_web/templates *
-recursive-include sagii_web/sagii_web *
-recursive-include sagii_web/sagii *
+recursive-include sagii/static *
+recursive-include sagii/templates *
