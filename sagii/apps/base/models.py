@@ -86,7 +86,7 @@ class PessoaFisica(Pessoa):
 
     falecido = models.BooleanField(default=False)
 
-    cpf = lf_models.BRCPFField()
+    cpf = lf_models.BRCPFField(unique=True)
 
     dependentes = models.ManyToManyField(
         'self', 
@@ -95,8 +95,12 @@ class PessoaFisica(Pessoa):
         symmetrical=False
     )
 
+    @property
+    def nome(self):
+        return self.nome_razao_social
+
     def __str__(self):
-        return '{} ({})'.format(self.nome_razao_social, self.cpf)
+        return '{} ({})'.format(self.nome, self.cpf)
 
     def __unicode__(self):
         return self.__str__()
@@ -107,13 +111,13 @@ class RelacaoDependencia(models.Model):
     responsavel = models.ForeignKey(
         PessoaFisica, 
         on_delete=models.PROTECT, 
-        related_name='_responsaveis'
+        related_name='_deps'
     )
 
     dependente = models.ForeignKey(
         PessoaFisica, 
         on_delete=models.CASCADE, 
-        related_name='_dependentes'
+        related_name='responsaveis'
     )
 
     class GrauParentesco(IntEnum):
@@ -143,6 +147,10 @@ class PessoaJuridica(Pessoa):
     cnpj = lf_models.BRCNPJField()
 
     matriz = models.ForeignKey('self', on_delete=models.PROTECT, related_name='filiais', null=True)
+
+    @property
+    def razao_social(self):
+        return self.nome_razao_social
 
 
 class Endereco(models.Model):
