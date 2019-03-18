@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from localflavor.br import br_states
 from localflavor.br import models as lf_models
 
-from sagii.commons import AutoNameEnum, ChoiceEnumCharValueMeta
+from sagii.commons import AutoNameEnum, ChoiceEnumCharValueMeta, PhoneRegexValidator
 
 # https://django-localflavor.readthedocs.io/en/latest/localflavor/br/
 
@@ -56,7 +56,7 @@ class PessoaFisica(Pessoa):
     )
 
     estado_civil = models.IntegerField(
-        choices=ESTADO_CIVIL_CHOICES, default=EstadoCivil.SOLTEIRO)
+        choices=ESTADO_CIVIL_CHOICES, default=EstadoCivil.SOLTEIRO.value)
 
     class TipoSanguineo(Enum, metaclass=ChoiceEnumCharValueMeta):
         AP = 'A+'
@@ -192,7 +192,7 @@ class Endereco(models.Model):
     uf = lf_models.BRStateField()
 
     # Define se é o endereço principal
-    principal = models.BooleanField()
+    principal = models.BooleanField(default=False)
 
     pessoa = models.ForeignKey(
         Pessoa, on_delete=models.CASCADE, related_name='enderecos')
@@ -222,7 +222,7 @@ class ContatoSocial(models.Model):
         Pessoa, on_delete=models.CASCADE, related_name='contatos_sociais')
 
     def __str__(self):
-        return '{}: {}'.format(self.tipo, self.valor)
+        return '{}: {}'.format(self.tipo.value.title(), self.valor)
 
 
 class DocumentoPessoalTipo(models.Model):
@@ -273,5 +273,9 @@ class Telefone(models.Model):
 
     pessoa = models.ForeignKey(
         Pessoa, on_delete=models.CASCADE, related_name='telefones')
-    numero = models.CharField(max_length=120)
+    numero = models.CharField(max_length=120, validators=[
+                              PhoneRegexValidator()])
     observacoes = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.numero
