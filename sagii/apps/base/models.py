@@ -1,9 +1,14 @@
+from enum import Enum, IntEnum, auto
+
 from django.db import models
-from enum import IntEnum, Enum, auto
 from django.utils.translation import gettext_lazy as _
-from sagii.commons import ChoiceEnumCharValueMeta, AutoNameEnum
-from localflavor.br import br_states, models as lf_models 
+from localflavor.br import br_states
+from localflavor.br import models as lf_models
+
+from sagii.commons import AutoNameEnum, ChoiceEnumCharValueMeta, PhoneRegexValidator
+
 # https://django-localflavor.readthedocs.io/en/latest/localflavor/br/
+
 
 class Pessoa(models.Model):
 
@@ -21,11 +26,11 @@ class PessoaFisica(Pessoa):
     class Meta:
         verbose_name = _('Pessoa Física')
         verbose_name_plural = _('Pessoas Físicas')
-    
+
     class Genero(Enum):
         MASCULINO = 'M'
         FEMININO = 'F'
-    
+
     SEXO_CHOICES = (
         (Genero.MASCULINO.value, _('Masculino')),
         (Genero.FEMININO.value, _('Feminino')),
@@ -88,10 +93,10 @@ class PessoaFisica(Pessoa):
     )
 
     nacionalidade = models.CharField(
-        max_length=3, 
+        max_length=3,
         choices=NACIONALIDADE_TIPO_CHOICES,
         default=NacionalidadeTipo.BRASILEIRO.value,
-        blank=True, 
+        blank=True,
         null=True
     )
 
@@ -100,9 +105,9 @@ class PessoaFisica(Pessoa):
     cpf = lf_models.BRCPFField(unique=True)
 
     dependentes = models.ManyToManyField(
-        'self', 
-        through='RelacaoDependencia', 
-        through_fields=('responsavel', 'dependente'), 
+        'self',
+        through='RelacaoDependencia',
+        through_fields=('responsavel', 'dependente'),
         symmetrical=False
     )
 
@@ -120,14 +125,14 @@ class PessoaFisica(Pessoa):
 class RelacaoDependencia(models.Model):
 
     responsavel = models.ForeignKey(
-        PessoaFisica, 
-        on_delete=models.PROTECT, 
+        PessoaFisica,
+        on_delete=models.PROTECT,
         related_name='_deps'
     )
 
     dependente = models.ForeignKey(
-        PessoaFisica, 
-        on_delete=models.CASCADE, 
+        PessoaFisica,
+        on_delete=models.CASCADE,
         related_name='responsaveis'
     )
 
@@ -157,7 +162,7 @@ class RelacaoDependencia(models.Model):
     
 
 class PessoaJuridica(Pessoa):
-    
+
     class Meta:
         verbose_name = _('Pessoa Jurídica')
         verbose_name_plural = _('Pessoas Jurídicas')
@@ -210,9 +215,8 @@ class Endereco(models.Model):
     
     uf = lf_models.BRStateField()
 
-    
     # Define se é o endereço principal
-    principal = models.BooleanField()
+    principal = models.BooleanField(default=False)
 
     pessoa = models.ForeignKey(
         Pessoa, 
@@ -238,7 +242,7 @@ class ContatoSocial(models.Model):
         EMAIL = auto()
         SKYPE = auto()
         LINKEDIN = auto()
-    
+
     tipo = models.CharField(max_length=60, choices=Tipo)
     
     valor = models.CharField(max_length=60)
@@ -250,7 +254,7 @@ class ContatoSocial(models.Model):
     )
 
     def __str__(self):
-        return '{}: {}'.format(self.tipo, self.valor)
+        return '{}: {}'.format(self.tipo.value.title(), self.valor)
 
 
 class DocumentoPessoalTipo(models.Model):
@@ -267,7 +271,7 @@ class DocumentoPessoalTipo(models.Model):
 
 
 class DocumentoPessoal(models.Model):
-    
+
     class Meta:
         unique_together = ('tipo', 'pessoa')
         verbose_name = _('Documento Pessoal')
@@ -289,7 +293,7 @@ class DocumentoPessoal(models.Model):
 
 
 class Telefone(models.Model):
-    
+
     class Meta:
         unique_together = ('numero', 'pessoa')
 
@@ -304,12 +308,11 @@ class Telefone(models.Model):
 
     tipo = models.IntegerField(choices=TELEFONE_TIPO_CHOICES)
 
-    pessoa = models.ForeignKey(
-        Pessoa, 
-        on_delete=models.CASCADE, 
-        related_name='telefones'
-    )
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='telefones')
     
-    numero = models.CharField(max_length=120)
+    numero = models.CharField(max_length=120, validators=[PhoneRegexValidator()])
     
     observacoes = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.numero
