@@ -21,6 +21,19 @@ class Pessoa(models.Model):
         return self.nome_razao_social
 
 
+class PessoaRelatedModel(models.Model):
+
+    class Meta:
+        abstract = True
+
+    pessoa = models.ForeignKey(
+        Pessoa, 
+        on_delete=models.CASCADE, 
+        related_name='%(app_label)s_%(class)s_related',
+        related_query_name='%(app_label)s_%(class)ss',
+    )
+
+
 class PessoaFisica(Pessoa):
 
     class Meta:
@@ -181,7 +194,7 @@ class PessoaJuridica(Pessoa):
         return self.nome_razao_social
 
 
-class Endereco(models.Model):
+class Endereco(PessoaRelatedModel):
 
     class Meta:
         verbose_name = _('Endereço')
@@ -218,14 +231,8 @@ class Endereco(models.Model):
     # Define se é o endereço principal
     principal = models.BooleanField(default=False)
 
-    pessoa = models.ForeignKey(
-        Pessoa, 
-        on_delete=models.CASCADE, 
-        related_name='enderecos'
-    )
 
-
-class ContatoSocial(models.Model):
+class ContatoSocial(PessoaRelatedModel):
 
     class Meta:
         verbose_name = _('Contato Social')
@@ -246,12 +253,6 @@ class ContatoSocial(models.Model):
     tipo = models.CharField(max_length=60, choices=Tipo)
     
     valor = models.CharField(max_length=60)
-    
-    pessoa = models.ForeignKey(
-        Pessoa, 
-        on_delete=models.CASCADE, 
-        related_name='contatos_sociais'
-    )
 
     def __str__(self):
         return '{}: {}'.format(self.tipo.value.title(), self.valor)
@@ -270,7 +271,7 @@ class DocumentoPessoalTipo(models.Model):
         return self.nome
 
 
-class DocumentoPessoal(models.Model):
+class DocumentoPessoal(PessoaRelatedModel):
 
     class Meta:
         unique_together = ('tipo', 'pessoa')
@@ -281,18 +282,13 @@ class DocumentoPessoal(models.Model):
     
     valor = models.CharField(max_length=60)
     
-    pessoa = models.ForeignKey(
-        Pessoa, on_delete=models.CASCADE, 
-        related_name='documentos'
-    )
-    
     observacoes = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return '{}: {}'.format(self.tipo, self.valor)
 
 
-class Telefone(models.Model):
+class Telefone(PessoaRelatedModel):
 
     class Meta:
         unique_together = ('numero', 'pessoa')
@@ -307,8 +303,6 @@ class Telefone(models.Model):
     )
 
     tipo = models.IntegerField(choices=TELEFONE_TIPO_CHOICES)
-
-    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name='telefones')
     
     numero = models.CharField(max_length=120, validators=[PhoneRegexValidator()])
     

@@ -22,7 +22,7 @@ class PessoaTestCase(TestCase):
                          'Instituto Federal de Rondônia - IFRO')
 
     def test_pessoa_p1_tem_enderecos(self):
-        self.assertEquals(self.p1.enderecos.count(), 0)
+        self.assertEquals(self.p1.base_endereco_related.count(), 0)
 
         end1 = Endereco(
             tipo=Endereco.Tipo.RESIDENCIAL,
@@ -39,14 +39,14 @@ class PessoaTestCase(TestCase):
 
         end1.save()
 
-        self.assertEquals(self.p1.enderecos.count(), 1)
+        self.assertEquals(self.p1.base_endereco_related.count(), 1)
         self.assertEquals(end1.tipo, Endereco.Tipo.RESIDENCIAL)
         self.assertEquals(end1.cep, '76821-001')
         self.assertEquals(end1.pessoa.nome_razao_social,
                           'Instituto Federal de Rondônia - IFRO')
 
         # save automatico do segundo endereço
-        end2 = self.p1.enderecos.create(
+        end2 = self.p1.base_endereco_related.create(
             tipo=Endereco.Tipo.COMERCIAL,
             cep='76804-124',
             logradouro='Av. 7 de setembro',
@@ -59,11 +59,11 @@ class PessoaTestCase(TestCase):
 
         self.assertIsNotNone(end2.pk)
         self.assertEquals(end2.pessoa.id, self.p1.id)
-        self.assertGreater(self.p1.enderecos.count(), 1,
+        self.assertGreater(self.p1.base_endereco_related.count(), 1,
                            'não existe mais de 1 endereco')
 
     def test_pessoa_p1_tem_contato_social(self):
-        self.assertEquals(self.p1.contatos_sociais.count(), 0)
+        self.assertEquals(self.p1.base_contatosocial_related.count(), 0)
 
         c1_whatsapp = ContatoSocial(
             tipo=ContatoSocial.Tipo.WHATSAPP, valor='+55 69 9.9999-1234', pessoa=self.p1)
