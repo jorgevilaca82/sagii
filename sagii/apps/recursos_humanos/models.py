@@ -36,3 +36,34 @@ class Funcionario(bm.PessoaFisica):
     empregador = models.ForeignKey(bm.PessoaJuridica, on_delete=models.PROTECT)
 
     setor_lotacao = models.ForeignKey(adm.Setor, on_delete=models.PROTECT)
+
+    class ServidorManager(models.Manager):
+        def get_queryset(self):
+            return (super().get_queryset()
+                .filter(tipo = Funcionario.Tipo.SERVIDOR_PUBLICO))
+    
+    servidores = ServidorManager()
+
+    class FuncionariosQuerySet(models.QuerySet):
+        def clt_permanentes(self):
+            return self.filter(tipo = Funcionario.Tipo.CLT_PERMANENTE)
+
+        def clt_temporarios(self):
+            return self.filter(tipo = Funcionario.Tipo.CLT_TEMPORARIO)
+        
+        def prestadores_de_servico(self):
+            return self.filter(tipo = Funcionario.Tipo.PRESTADOR_SERVICO)
+        
+        def servidores_publicos(self):
+            return self.filter(tipo = Funcionario.Tipo.SERVIDOR_PUBLICO)
+        
+        def estagiarios(self):
+            return self.filter(tipo = Funcionario.Tipo.ESTAGIARIO)
+        
+        def trainees(self):
+            return self.filter(tipo = Funcionario.Tipo.TRAINEE)
+        
+        def menores_aprendiz(self):
+            return self.filter(tipo = Funcionario.Tipo.MENOR_APRENDIZ)
+    
+    funcionarios = FuncionariosQuerySet.as_manager()
