@@ -128,6 +128,10 @@ class PessoaFisica(Pessoa):
     def nome(self):
         return self.nome_razao_social
 
+    @nome.setter
+    def nome(self, value):
+        self.nome_razao_social = value
+
     def __str__(self):
         return '{} ({})'.format(self.nome, self.cpf)
 
@@ -192,6 +196,10 @@ class PessoaJuridica(Pessoa):
     @property
     def razao_social(self):
         return self.nome_razao_social
+
+    @razao_social.setter
+    def razao_social(self, value):
+        self.nome_razao_social = value
 
 
 class Endereco(PessoaRelatedModel):
