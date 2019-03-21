@@ -5,7 +5,8 @@ from django.utils.translation import gettext_lazy as _
 from localflavor.br import br_states
 from localflavor.br import models as lf_models
 
-from sagii.commons import AutoNameEnum, ChoiceEnumCharValueMeta, PhoneRegexValidator
+from sagii.commons import AutoNameEnum, ChoiceEnumCharValueMeta
+from sagii.commons.validators import PhoneRegexValidator
 
 # https://django-localflavor.readthedocs.io/en/latest/localflavor/br/
 
