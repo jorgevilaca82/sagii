@@ -3,7 +3,9 @@ from django.urls import path, include
 from . import views
 
 
-app_name = 'sagii.apps.base'
+app_name = 'sagii_base'
+
+
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.HomeView.as_view(), name='home'),
 ]
