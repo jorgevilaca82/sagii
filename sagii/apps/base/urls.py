@@ -8,4 +8,5 @@ app_name = 'sagii_base'
 
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
+    path('pessoafisica/', views.PessoaFisicaListView.as_view(), name='pessoafisica_list')
 ]

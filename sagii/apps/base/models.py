@@ -11,7 +11,16 @@ from sagii.commons.validators import PhoneRegexValidator
 # https://django-localflavor.readthedocs.io/en/latest/localflavor/br/
 
 
-class Pessoa(models.Model):
+class AuditableModel(models.Model):
+    
+    class Meta:
+        abstract=True
+
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+
+class Pessoa(AuditableModel):
 
     class Meta:
         pass
@@ -22,7 +31,7 @@ class Pessoa(models.Model):
         return self.nome_razao_social
 
 
-class PessoaRelatedModel(models.Model):
+class PessoaRelatedModel(AuditableModel):
 
     class Meta:
         abstract = True
