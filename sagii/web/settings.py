@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'localflavor',
+    'sagii.apps.webapp', # apenas estáticos e templates globais por enquanto
     'sagii.apps.base',
     'sagii.apps.administracao',
     'sagii.apps.academico',
