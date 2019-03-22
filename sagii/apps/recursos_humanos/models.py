@@ -67,3 +67,7 @@ class Funcionario(bm.PessoaFisica):
             return self.filter(tipo = Funcionario.Tipo.MENOR_APRENDIZ)
     
     funcionarios = FuncionariosQuerySet.as_manager()
+
+    @classmethod
+    def get_display_of_tipo(cls, tipo):
+        return dict(cls.FUNCIONARIO_TIPO_CHOICES).get(tipo)

@@ -1,0 +1,17 @@
+{% extends 'base/layout.html' %}
+{% load i18n admin_urls static admin_list %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <h2>{{ model_verbose_name|capfirst }}</h2>
+        <ul>
+        {% for obj in object_list %}
+            <li>{{ obj.nome }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+{% include 'base/pagination.html' %}
+{% endblock %}
+
