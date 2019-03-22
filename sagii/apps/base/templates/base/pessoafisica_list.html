@@ -1,9 +1,10 @@
 {% extends 'base/layout.html' %}
+{% load i18n admin_urls static admin_list %}
 
 {% block content %}
 <div class="row">
     <div class="col-lg-3 col-md-6 col-sm-6">
-        <h2>{{ cl.opts.verbose_name_plural|capfirst }}</h2>
+        <h2>{{ opts.verbose_name_plural|capfirst }}</h2>
         <ul>
         {% for pessoafisica in pessoafisica_list %}
             <li>{{ pessoafisica.nome }}</li>
@@ -11,5 +12,6 @@
         </ul>
     </div>
 </div>
+{% include 'base/pagination.html' %}
 {% endblock %}
 

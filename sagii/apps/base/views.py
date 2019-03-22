@@ -17,5 +17,10 @@ class HomeView(TemplateView):
 
 class PessoaFisicaListView(ListView):
     context_object_name = 'pessoafisica_list'
+    paginate_by = 1
     model = bm.PessoaFisica
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['opts'] = self.model._meta
+        return context

@@ -2,22 +2,12 @@ from enum import Enum, IntEnum, auto
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from localflavor.br import br_states
+from localflavor.br import br_states  # https://django-localflavor.readthedocs.io/en/latest/localflavor/br/
 from localflavor.br import models as lf_models
 
 from sagii.commons import AutoNameEnum, ChoiceEnumCharValueMeta
 from sagii.commons.validators import PhoneRegexValidator
-
-# https://django-localflavor.readthedocs.io/en/latest/localflavor/br/
-
-
-class AuditableModel(models.Model):
-    
-    class Meta:
-        abstract=True
-
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
+from sagii.commons.models import AuditableModel
 
 
 class Pessoa(AuditableModel):
