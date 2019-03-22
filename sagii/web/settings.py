@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'localflavor',
+
+    # https://django-bootstrap-breadcrumbs.readthedocs.io/en/latest/
+
     'sagii.apps.webapp', # apenas estáticos e templates globais por enquanto
     'sagii.apps.base',
     'sagii.apps.administracao',

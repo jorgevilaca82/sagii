@@ -21,6 +21,7 @@ setup(
     install_requires = [
         "Django>=2.1",
         "django-localflavor>=2.1",
+        # "cached-property==1.5.1", # TODO: Interessante, estudar uso!
         "pytz==2018.9",
         "PyYAML>=3.13",
         "sqlparse>=0.2.4",

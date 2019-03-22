@@ -1,9 +1,12 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView, UpdateView
+from django.views.generic.edit import UpdateView
 from django.http import HttpResponse
 # Create your views here.
 
 from . import models as bm
+
+DEFAULT_PAGINATE = 20
 
 def _index(request):
     import locale, calendar
@@ -17,10 +20,17 @@ class HomeView(TemplateView):
 
 class PessoaFisicaListView(ListView):
     context_object_name = 'pessoafisica_list'
-    paginate_by = 1
+    paginate_by = DEFAULT_PAGINATE
     model = bm.PessoaFisica
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['opts'] = self.model._meta
         return context
+
+
+class PessoaFisicaDetailView(DetailView):
+    model = bm.PessoaFisica
+
+class PessoaFisicaUpdateView(UpdateView):
+    model = bm.PessoaFisica
