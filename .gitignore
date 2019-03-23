@@ -115,7 +115,7 @@ venv.bak/
 .Spotlight-V100
 .Trashes
 
-static/
+sagii/static/*
 
 node_modules/
 
