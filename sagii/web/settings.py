@@ -42,6 +42,8 @@ INSTALLED_APPS = [
 
     # https://django-bootstrap-breadcrumbs.readthedocs.io/en/latest/
 
+    'sagii.commons',
+
     'sagii.apps.base',
     'sagii.apps.administracao',
     'sagii.apps.academico',
