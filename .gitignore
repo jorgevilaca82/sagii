@@ -115,4 +115,7 @@ venv.bak/
 .Spotlight-V100
 .Trashes
 
-collected_static/
+static/
+
+node_modules/
+

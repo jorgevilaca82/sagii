@@ -15,13 +15,13 @@ urlpatterns = [
         views.PessoaFisicaListView.as_view(), 
         name='pessoafisica-list'),
     
+    path('pessoafisica/create',
+        views.PessoaFisicaCreateView.as_view(),
+        name='pessoafisica-create'),
+    
     path('pessoafisica/<int:pk>/', 
         views.PessoaFisicaDetailView.as_view(), 
         name='pessoafisica-detail'),
-    
-    path('pessoafisica/<int:pk>/add',
-        views.PessoaFisicaUpdateView.as_view(),
-        name='pessoafisica-add'),
     
     path('pessoafisica/<int:pk>/edit',
         views.PessoaFisicaUpdateView.as_view(),

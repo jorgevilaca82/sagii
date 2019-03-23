@@ -42,7 +42,6 @@ INSTALLED_APPS = [
 
     # https://django-bootstrap-breadcrumbs.readthedocs.io/en/latest/
 
-    'sagii.apps.webapp', # apenas estáticos e templates globais por enquanto
     'sagii.apps.base',
     'sagii.apps.administracao',
     'sagii.apps.academico',
@@ -128,6 +127,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    # '/var/www/static/',
+]
+
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '../collected_static/'
+STATIC_ROOT = '/static/'
