@@ -1,7 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import (
-    TemplateView, ListView, DetailView, UpdateView, CreateView
-)
+from django.views import generic
 from django.http import HttpResponse
 # Create your views here.
 
@@ -17,11 +15,11 @@ def _index(request):
     return HttpResponse(', '.join(list(calendar.day_name)))
 
 
-class HomeView(TemplateView):
+class HomeView(generic.TemplateView):
     template_name = "base/home.html"
 
 
-class PessoaFisicaListView(ListView):
+class PessoaFisicaListView(generic.ListView):
     context_object_name = 'pessoafisica_list'
     paginate_by = DEFAULT_PAGINATE
     model = bm.PessoaFisica
@@ -29,10 +27,11 @@ class PessoaFisicaListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['opts'] = self.model._meta
+        context['prop'] = 'nome'
         return context
 
 
-class PessoaFisicaCreateView(CreateView):
+class PessoaFisicaCreateView(generic.CreateView):
     model = bm.PessoaFisica
     # form_class = 
     fields = (
@@ -48,9 +47,9 @@ class PessoaFisicaCreateView(CreateView):
     )
 
 
-class PessoaFisicaDetailView(DetailView):
+class PessoaFisicaDetailView(generic.DetailView):
     model = bm.PessoaFisica
 
 
-class PessoaFisicaUpdateView(UpdateView):
+class PessoaFisicaUpdateView(generic.UpdateView):
     model = bm.PessoaFisica

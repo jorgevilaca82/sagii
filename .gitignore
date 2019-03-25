@@ -116,6 +116,6 @@ venv.bak/
 .Trashes
 
 static/
-
+static_dev/
 node_modules/
 

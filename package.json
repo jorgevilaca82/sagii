@@ -6,11 +6,10 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "build": "npx webpack --config webpack.config.js",
-        "copymodules": "npx webpack --config webpack-copymodules.config.js"
+        "build": "npx webpack --config webpack.config.js"
     },
     "dependencies": {
-        "admin-lte": "https://github.com/ColorlibHQ/AdminLTE.git#v3.0.0-alpha",
+        "admin-lte": "https://github.com/ColorlibHQ/AdminLTE.git#v3-dev",
         "bootstrap": "^4.3.1"
     },
     "devDependencies": {

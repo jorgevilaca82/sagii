@@ -133,7 +133,11 @@ class PessoaFisica(Pessoa):
         self.nome_razao_social = value
 
     def __str__(self):
-        return '{} ({})'.format(self.nome, self.cpf)
+        _s = nome_abreviado = self.nome.split(' ')
+        # obtem o primeiro e último nome
+        if len(_s) > 1:
+            nome_abreviado = ' '.join(_s[::len(_s)-1])
+        return '{} ({})'.format(nome_abreviado, self.cpf)
 
     def __unicode__(self):
         return self.__str__()
