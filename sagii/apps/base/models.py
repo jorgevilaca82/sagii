@@ -142,6 +142,10 @@ class PessoaFisica(Pessoa):
     def __unicode__(self):
         return self.__str__()
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('sagii_base:pessoafisica-detail', args=[str(self.pk)])
+
 
 class RelacaoDependencia(models.Model):
 

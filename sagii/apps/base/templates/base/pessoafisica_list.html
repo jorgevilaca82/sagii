@@ -18,7 +18,7 @@
                     <!-- <td>{{ pessoafisica.nacionalidade }}</td> -->
                     <td>{{ pessoafisica.falecido|yesno:"sim,não" }}</td>
                     <td>
-                        <a href="{% url 'sagii_base:pessoafisica-detail' pessoafisica.pk %}">detalhes</a>
+                        <a href="{{ pessoafisica.get_absolute_url }}">outrso detalhes</a>
                     </td>
                 </tr>
                 {% endfor %}

@@ -24,12 +24,6 @@ class PessoaFisicaListView(generic.ListView):
     paginate_by = DEFAULT_PAGINATE
     model = bm.PessoaFisica
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['opts'] = self.model._meta
-        context['prop'] = 'nome'
-        return context
-
 
 class PessoaFisicaCreateView(generic.CreateView):
     model = bm.PessoaFisica
@@ -49,7 +43,6 @@ class PessoaFisicaCreateView(generic.CreateView):
 
 class PessoaFisicaDetailView(generic.DetailView):
     model = bm.PessoaFisica
-
 
 class PessoaFisicaUpdateView(generic.UpdateView):
     model = bm.PessoaFisica
