@@ -3,7 +3,11 @@
     <div class="form-group col-md-12">
         {{ field.label_tag }} 
         {{ field }}
-        {{ field.errors }}
+        {% if field.errors %}
+        <div class="invalid-feedback">
+            {{ field.errors }}
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endfor %}

@@ -11,6 +11,7 @@ class TextInput(djw.TextInput, BootstrapWidgetMixin):
         BootstrapWidgetMixin.__init__(self, attrs=attrs)
         return super(djw.TextInput, self).__init__(attrs=self.attrs)
 
+
 class Select(djw.Select, BootstrapWidgetMixin):
     def __init__(self, attrs=None):
         BootstrapWidgetMixin.__init__(self, attrs=attrs)
