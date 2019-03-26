@@ -144,7 +144,7 @@ class PessoaFisica(Pessoa):
 
     def get_absolute_url(self):
         from django.urls import reverse
-        return reverse('sagii_base:pessoafisica-detail', args=[str(self.pk)])
+        return reverse('sagii_base:pessoafisica-detail', kwargs={'pk': self.pk})
 
 
 class RelacaoDependencia(models.Model):
