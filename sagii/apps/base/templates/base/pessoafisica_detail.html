@@ -1,6 +1,4 @@
-{% extends default_layout %}
-{% load model_utils %}
-{% block content %}
+{% extends default_layout %} {% load model_utils %} {% block content %}
 <div class="row">
     <div class="col-12">
         <!-- Custom Tabs -->
@@ -8,13 +6,13 @@
             <div class="card-header d-flex p-0">
                 <h3 class="card-title p-3">Detalhes de {{ object }}</h3>
                 <ul class="nav nav-pills ml-auto p-2">
-                    <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Geral</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Endereços</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Telefones</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tab_4" data-toggle="tab">Dependentes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tab_5" data-toggle="tab">Contatos Socias</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tab_6" data-toggle="tab">Outros Documentos</a></li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item"><a class="nav-link active" href="#tab_geral" data-toggle="tab">Geral</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_enderecos" data-toggle="tab">Endereços</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_telefones" data-toggle="tab">Telefones</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_dependentes" data-toggle="tab">Dependentes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_contatossociais" data-toggle="tab">Contatos Socias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_outrosdocumentos" data-toggle="tab">Outros Documentos</a></li>
+                    <!-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                             Dropdown <span class="caret"></span>
                         </a>
@@ -25,13 +23,14 @@
                             <div class="divider"></div>
                             <a class="dropdown-item" tabindex="-1" href="#">Separated link</a>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
                 <div class="tab-content">
-                    <div class="tab-pane active" id="tab_1">
+                    <div class="tab-pane active" id="tab_geral">
+                        <h3>Dados Gerais</h3>
                         <dl class="dl-horizontal row">
                             <dt class="col-sm-2">{% fvb pessoafisica 'cpf' as f %} {{f|title}}</dt>
                             <dd class="col-sm-10">{{ pessoafisica.cpf }}</dd>
@@ -55,14 +54,27 @@
 
                     </div>
                     <!-- /.tab-pane -->
-                    <div class="tab-pane" id="tab_2">
+                    <div class="tab-pane" id="tab_enderecos">
+                        <h3>Endereços</h3>
                         count: {{ pessoafisica.base_endereco_related.count }}
                     </div>
                     <!-- /.tab-pane -->
-                    <div class="tab-pane" id="tab_3">Telefones </div>
-                    <div class="tab-pane" id="tab_4">Dependentes </div>
-                    <div class="tab-pane" id="tab_5">Contatos Socias </div>
-                    <div class="tab-pane" id="tab_6">Outros Documentos </div>
+                    <div class="tab-pane" id="tab_telefones">
+                        <h3>Telefones</h3>
+                        count: {{ pessoafisica.base_telefone_related.count }}
+                    </div>
+                    <div class="tab-pane" id="tab_dependentes">
+                        <h3>Dependentes</h3>
+                        count: {{ pessoafisica.base_relacaodependencia_related.count }}
+                    </div>
+                    <div class="tab-pane" id="tab_contatossociais">
+                        <h3>Contatos Socias</h3>
+                        count: {{ pessoafisica.base_contatosocial_related.count }}
+                    </div>
+                    <div class="tab-pane" id="tab_outrosdocumentos">
+                        <h3>Outros Documentos</h3>
+                        count: {{ pessoafisica.base_documentopessoal_related.count }}
+                    </div>
                     <!-- /.tab-pane -->
                 </div>
                 <!-- /.tab-content -->
@@ -73,4 +85,19 @@
     </div>
     <!-- /.col -->
 </div>
-{% endblock content %}
+
+
+{% endblock content %} {% block scripts %}
+<script>
+    $(function() {
+        $('a[data-toggle="tab"]').on('click', (e) => {
+            window.localStorage.setItem('activeTab', $(e.target).attr('href'));
+        });
+        var activeTab = window.localStorage.getItem('activeTab');
+        if (activeTab) {
+            $('li.nav-item a[href="' + activeTab + '"]').tab('show');
+            window.localStorage.removeItem("activeTab");
+        }
+    });
+</script>
+{% endblock scripts %}
