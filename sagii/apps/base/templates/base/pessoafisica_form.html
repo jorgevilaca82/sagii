@@ -6,16 +6,7 @@
                 <h5 class="card-title">Cadastrar Pessoa Física</h5>
             </div>
             <div class="card-body">
-                <form method="post"> {% csrf_token %} {{ form.non_field_errors }}
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="{{ form.cpf.id_for_label}}">{{ form.cpf.label|upper }}</label> {{ form.cpf }}
-                            </div>
-                        </div>
-                    </div>
-
+                <form method="post"> {% csrf_token %} {{ form.non_field_errors }} {% include "commons/form_snippet.html" %}
                 </form>
             </div>
         </div>

@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
+from django.forms import modelform_factory #, widgets
+from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponse
 # Create your views here.
 
@@ -26,19 +28,30 @@ class PessoaFisicaListView(generic.ListView):
 
 
 class PessoaFisicaCreateView(generic.CreateView):
+    from sagii.commons import widgets
     model = bm.PessoaFisica
-    # form_class = 
-    fields = (
-        'nome_razao_social', 
-        'sexo', 
-        'estado_civil', 
-        'tipo_sanguineo',
-        'natural_cidade', 
-        'natural_uf', 
-        'nacionalidade', 
-        'falecido', 
-        'cpf'
+    form_class = modelform_factory(bm.PessoaFisica, 
+        widgets= {
+            'cpf': widgets.TextInput(),
+            'nome_razao_social': widgets.TextInput(),
+            'sexo': widgets.Select(attrs={'class': 'form-control'})
+        }, 
+        fields=(
+            'cpf',
+            'nome_razao_social', 
+            'sexo', 
+            'estado_civil', 
+            'natural_cidade', 
+            'natural_uf', 
+            'nacionalidade', 
+            'tipo_sanguineo',
+            'falecido', 
+        ),
+        labels={
+            'nome_razao_social': _('Nome completo')
+        }
     )
+
 
 
 class PessoaFisicaDetailView(generic.DetailView):
