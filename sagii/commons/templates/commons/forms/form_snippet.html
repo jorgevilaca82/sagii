@@ -4,9 +4,11 @@
         {{ field.label_tag }} 
         {{ field }}
         {% if field.errors %}
-        <div class="invalid-feedback">
-            {{ field.errors }}
-        </div>
+            <div class="invalid-feedback">
+              {% for error in field.errors %}
+                <p>{{ error|escape }}</p>
+              {% endfor %}
+            </div>
         {% endif %}
     </div>
 </div>
