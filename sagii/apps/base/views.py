@@ -24,11 +24,12 @@ class PessoaFisicaListView(generic.ListView):
     context_object_name = 'pessoafisica_list'
     paginate_by = DEFAULT_PAGINATE
     model = bm.PessoaFisica
+    ordering = '-id'
 
 
 class PessoaFisicaCreateView(generic.CreateView):
     model = bm.PessoaFisica
-    form_class = bf.PessoaFisicaModelForm
+    form_class = bf.PessoaFisicaForm
 
 
 class PessoaFisicaDetailView(generic.DetailView):

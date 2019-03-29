@@ -1,37 +1,59 @@
-from django.forms import widgets as djw
+from django.forms import widgets as dw
 from . import forms
 
-class BootstrapWidgetMixin(object):
+EMPTY_SPACE = ' '
+
+class AppWidgetMixin(object):
+
+    default_field_css_class = 'form-control'
+    invalid_css_class = 'is-invalid'
+    _class_attr = 'class'
+
     def __init__(self, attrs=None):
-        # import pdb; pdb.set_trace()
         self.attrs = {} if attrs is None else attrs.copy()
-        self.attrs.update({'class': 'form-control'})
+        self.attrs.update({self._class_attr: self.default_field_css_class})
+
+    @classmethod
+    def set_as_invalid(cls, widget_instance):
+        attrs = cls.get_default_attrs(widget_instance.attrs, cls.invalid_css_class)
+        widget_instance.attrs.update(attrs)
+        # # import pdb; pdb.set_trace()
+
+    @classmethod
+    def get_default_attrs(cls, attrs, *extra_classes):
+        attrs = {} if attrs is None else attrs.copy()
+        classes = []
+        if cls._class_attr in attrs.keys():
+            classes = set(attrs[cls._class_attr].split(EMPTY_SPACE)) # remove duplicados
+        if len(extra_classes):
+            classes = [*classes, *extra_classes] 
+        attrs.update({cls._class_attr: EMPTY_SPACE.join(classes)})
+        return attrs
 
 
-class TextInput(BootstrapWidgetMixin, djw.TextInput):
+class TextInput(AppWidgetMixin, dw.TextInput):
     def __init__(self, attrs=None):
-        super(djw.TextInput, self).__init__(attrs=self.attrs)
-        BootstrapWidgetMixin.__init__(self, attrs=attrs)
+        super(dw.TextInput, self).__init__(attrs=attrs)
+        AppWidgetMixin.__init__(self, attrs=attrs)
 
 
-class Select(BootstrapWidgetMixin, djw.Select):
+class Select(AppWidgetMixin, dw.Select):
     def __init__(self, attrs=None, choices=()):       
-        super(djw.Select, self).__init__(attrs, choices=choices)
-        BootstrapWidgetMixin.__init__(self, attrs=attrs)
+        super(dw.Select, self).__init__(attrs, choices=choices)
+        AppWidgetMixin.__init__(self, attrs=attrs)
 
-# djw.Select
-# djw.Textarea
-
-# djw.CheckboxInput
-# djw.CheckboxSelectMultiple
-# djw.ChoiceWidget
-# djw.ClearableFileInput
-# djw.DateInput
-# djw.DateTimeBaseInput
-# djw.DateTimeInput
-# djw.SelectDateWidget
-# djw.SelectMultiple
-# djw.SplitDateTimeWidget
-# djw.EmailInput
-# djw.RadioSelect
-# djw.URLInput
+# dw.Select
+# dw.Textarea
+# dw.CheckboxInput
+# dw.CheckboxSelectMultiple
+# dw.ChoiceWidget
+# dw.ClearableFileInput
+# dw.DateInput
+# dw.DateTimeBaseInput
+# dw.DateTimeInput
+# dw.SelectDateWidget
+# dw.SelectMultiple
+# dw.SplitDateTimeWidget
+# dw.EmailInput
+# dw.RadioSelect
+# dw.URLInput
