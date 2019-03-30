@@ -30,7 +30,6 @@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_geral">
-                        <h3>Dados Gerais</h3>
                         <dl class="dl-horizontal row">
                             <dt class="col-sm-2">{% fvb pessoafisica 'cpf' as f %} {{f|title}}</dt>
                             <dd class="col-sm-10">{{ pessoafisica.cpf }}</dd>
@@ -73,7 +72,18 @@
                     </div>
                     <div class="tab-pane" id="tab_outrosdocumentos">
                         <h3>Outros Documentos</h3>
-                        count: {{ pessoafisica.base_documentopessoal_related.count }}
+                        <!-- count: {{ pessoafisica.base_documentopessoal_related.count }} -->
+                        <dl class="dl-horizontal row">
+                            {% for doc in pessoafisica.base_documentopessoal_related.all %}
+                            <dt class="col-sm-2">{{ doc.tipo }}</dt>
+                            <dd class="col-sm-10">{{ doc.valor }}</dd>
+                            {% endfor %}
+                        </dl>
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#outrosdocumentosModal">
+                            Adic. Doc.
+                        </button>
                     </div>
                     <!-- /.tab-pane -->
                 </div>
@@ -86,6 +96,33 @@
     <!-- /.col -->
 </div>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="outrosdocumentosModal" tabindex="-1" role="dialog" aria-labelledby="outrosdocumentosModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="outrosdocumentosModalLabel">Adicionar Documento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                {{ docs_formset.as_table }}
+                <hr>
+                <form method="post">
+                    {{ docs_formset.management_form }}
+                    <table>
+                        {% for form in docs_formset %} {{ form }} {% endfor %}
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock content %} {% block scripts %}
 <script>
