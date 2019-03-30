@@ -298,7 +298,7 @@ class DocumentoPessoal(PessoaRelatedModel):
     
     valor = models.CharField(max_length=60)
     
-    observacoes = models.TextField(null=True, blank=True)
+    observacoes = models.CharField(max_length=140, null=True, blank=True)
 
     def __str__(self):
         return '{}: {}'.format(self.tipo, self.valor)
