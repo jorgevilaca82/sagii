@@ -1,0 +1,24 @@
+{% extends default_layout %} {% block content %} {% comment %} https://docs.djangoproject.com/en/2.1/topics/forms/
+{% endcomment %}
+<div class="row ml-auto mr-auto">
+    <div class="col-md-8 ml-auto mr-auto">
+        <div class="card card-user">
+            <div class="card-header">
+                <h5 class="card-title">Cadastrar Pessoa Jurídica</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" novalidate> {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    {% include "commons/forms/form_snippet.html" %}
+                    {% comment %} {% include "base/_pessoafisica_fields.html" %} {% endcomment %}
+                    <div class="row">
+                        <div class="update ml-auto mr-auto">
+                            <button type="submit" class="btn btn-primary btn-round">Salvar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -83,3 +83,9 @@ class _PessoaFisicaForm(ModelForm):
 PessoaFisicaForm = modelform_factory(bm.PessoaFisica, 
     form=_PessoaFisicaForm, 
     formfield_callback=_PessoaFisicaForm.form_callback)
+
+class _PessoaJuridicaForm(ModelForm):
+    class Meta:
+        fields = ('cnpj', 'nome_razao_social')
+
+PessoaJuridicaForm = modelform_factory(bm.PessoaJuridica, form=_PessoaJuridicaForm)

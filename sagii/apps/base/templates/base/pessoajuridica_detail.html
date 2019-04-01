@@ -1,0 +1,126 @@
+{% extends default_layout %} {% load model_utils %} {% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Custom Tabs -->
+        <div class="card">
+            <div class="card-header d-flex p-0">
+                <h3 class="card-title p-3">Detalhes de {{ object }}</h3>
+                <ul class="nav nav-pills ml-auto p-2">
+                    <li class="nav-item"><a class="nav-link active" href="#tab_geral" data-toggle="tab">Geral</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_enderecos" data-toggle="tab">Endereços</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_telefones" data-toggle="tab">Telefones</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_dependentes" data-toggle="tab">Dependentes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_contatossociais" data-toggle="tab">Contatos Socias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_outrosdocumentos" data-toggle="tab">Outros Documentos</a></li>
+                    <!-- <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                            Dropdown <span class="caret"></span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" tabindex="-1" href="#">Action</a>
+                            <a class="dropdown-item" tabindex="-1" href="#">Another action</a>
+                            <a class="dropdown-item" tabindex="-1" href="#">Something else here</a>
+                            <div class="divider"></div>
+                            <a class="dropdown-item" tabindex="-1" href="#">Separated link</a>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_geral">
+                        <dl class="dl-horizontal row">
+                            <dt class="col-sm-2">{% fvb pessoajuridica 'cnpj' as f %} {{f|title}}</dt>
+                            <dd class="col-sm-10">{{ pessoajuridica.cnpj }}</dd>
+                            <dt class="col-sm-2">{{'razao_social'|title}}</dt>
+                            <dd class="col-sm-10">{{ pessoajuridica.razao_social }}</dd>
+                        </dl>
+
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_enderecos">
+                        <h3>Endereços</h3>
+                        count: {{ pessoajuridica.base_endereco_related.count }}
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_telefones">
+                        <h3>Telefones</h3>
+                        count: {{ pessoajuridica.base_telefone_related.count }}
+                    </div>
+                    <div class="tab-pane" id="tab_dependentes">
+                        <h3>Dependentes</h3>
+                        count: {{ pessoajuridica.base_relacaodependencia_related.count }}
+                    </div>
+                    <div class="tab-pane" id="tab_contatossociais">
+                        <h3>Contatos Socias</h3>
+                        count: {{ pessoajuridica.base_contatosocial_related.count }}
+                    </div>
+                    <div class="tab-pane" id="tab_outrosdocumentos">
+                        <h3>Outros Documentos</h3>
+                        <!-- count: {{ pessoajuridica.base_documentopessoal_related.count }} -->
+                        <dl class="dl-horizontal row">
+                            {% for doc in pessoajuridica.base_documentopessoal_related.all %}
+                            <dt class="col-sm-2">{{ doc.tipo }}</dt>
+                            <dd class="col-sm-10">{{ doc.valor }}</dd>
+                            {% endfor %}
+                        </dl>
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#outrosdocumentosModal">
+                            Adic. Doc.
+                        </button>
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- ./card -->
+    </div>
+    <!-- /.col -->
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="outrosdocumentosModal" tabindex="-1" role="dialog" aria-labelledby="outrosdocumentosModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="outrosdocumentosModalLabel">Adicionar Documento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                {{ docs_formset.as_table }}
+                <hr>
+                <form method="post">
+                    {{ docs_formset.management_form }}
+                    <table>
+                        {% for form in docs_formset %} {{ form }} {% endfor %}
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %} {% block scripts %}
+<script>
+    $(function() {
+        $('a[data-toggle="tab"]').on('click', (e) => {
+            window.localStorage.setItem('activeTab', $(e.target).attr('href'));
+        });
+        var activeTab = window.localStorage.getItem('activeTab');
+        if (activeTab) {
+            $('li.nav-item a[href="' + activeTab + '"]').tab('show');
+            window.localStorage.removeItem("activeTab");
+        }
+    });
+</script>
+{% endblock scripts %}

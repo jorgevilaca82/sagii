@@ -1,0 +1,14 @@
+{% extends default_layout %}
+
+{% block content %}
+<div class="card col-md-4 mr-auto ml-auto">
+    <div class="card-body">
+        <h5 class="card-title">Confirme a exclusão</h5>
+        <form method="post">{% csrf_token %}
+            <p>Tem certeza que deseja excluir "{{ object }}"?</p>
+            <input type="submit" value="Confirmar" class="btn btn-danger">
+            <a href="{% url 'sagii_base:pessoajuridica-detail' pk=object.pk %}" class="btn btn-default">Voltar</a>
+        </form>
+    </div>
+</div>
+{% endblock content %}

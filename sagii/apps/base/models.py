@@ -194,7 +194,7 @@ class PessoaJuridica(Pessoa):
         verbose_name = _('Pessoa Jurídica')
         verbose_name_plural = _('Pessoas Jurídicas')
 
-    cnpj = lf_models.BRCNPJField()
+    cnpj = lf_models.BRCNPJField(unique=True)
 
     matriz = models.ForeignKey(
         'self', 
@@ -210,6 +210,10 @@ class PessoaJuridica(Pessoa):
     @razao_social.setter
     def razao_social(self, value):
         self.nome_razao_social = value
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('sagii_base:pessoajuridica-detail', kwargs={'pk': self.pk})
 
 
 class Endereco(PessoaRelatedModel):

@@ -1,42 +1,31 @@
-from django.shortcuts import render
 from django.views import generic
-from django.http import HttpResponse
 from django.forms import modelform_factory, formset_factory
 from django.contrib.messages.views import SuccessMessageMixin
+from sagii.commons.messages.views import SuccessMessageOnDeleteMixin
+from django.urls import reverse_lazy
 # Create your views here.
 
-from . import models as bm
-from . import forms as bf
+from .. import models as bm
+from .. import forms as bf
 
 DEFAULT_PAGINATE = 20
+MODEL = bm.PessoaFisica
 
-
-def _index(request):
-    import locale
-    import calendar
-    locale.setlocale(locale.LC_ALL, 'pt-BR')
-    return HttpResponse(', '.join(list(calendar.day_name)))
-
-
-class HomeView(generic.TemplateView):
-    template_name = "base/home.html"
-
-
-class PessoaFisicaListView(generic.ListView):
+class ListView(generic.ListView):
     context_object_name = 'pessoafisica_list'
     paginate_by = DEFAULT_PAGINATE
-    model = bm.PessoaFisica
+    model = MODEL
     ordering = '-id'
 
 
-class PessoaFisicaCreateView(SuccessMessageMixin, generic.CreateView):
-    model = bm.PessoaFisica
+class CreateView(SuccessMessageMixin, generic.CreateView):
+    model = MODEL
     form_class = bf.PessoaFisicaForm
     success_message = model._meta.verbose_name + " com CPF n. %(cpf)s cadastrada com sucesso!"
 
 
-class PessoaFisicaDetailView(generic.DetailView):
-    model = bm.PessoaFisica
+class DetailView(generic.DetailView):
+    model = MODEL
     DocumentoPessoalModelForm = modelform_factory(bm.DocumentoPessoal, fields=('tipo', 'valor', 'observacoes'))
     DocumentoPessoalFormSet = formset_factory(DocumentoPessoalModelForm, 
         min_num=bm.DocumentoPessoalTipo.objects.count())
@@ -48,5 +37,13 @@ class PessoaFisicaDetailView(generic.DetailView):
         return context
     
 
-class PessoaFisicaUpdateView(generic.UpdateView):
-    model = bm.PessoaFisica
+class UpdateView(SuccessMessageMixin, generic.UpdateView):
+    model = MODEL
+    form_class = bf.PessoaFisicaForm
+    success_message = model._meta.verbose_name + " com CPF n. %(cpf)s atualizada com sucesso!"
+
+
+class DeleteView(SuccessMessageOnDeleteMixin, generic.DeleteView):
+    model = MODEL
+    success_message = model._meta.verbose_name + " com CPF n. %(cpf)s excluída permanentemente!"
+    success_url = reverse_lazy('sagii_base:pessoafisica-list')
