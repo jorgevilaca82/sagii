@@ -8,14 +8,6 @@ class AppFieldMixin(object):
 
     def set_as_invalid(self):
         widgets.AppWidgetMixin.set_as_invalid(self.widget)
-        # if isinstance(self.widget, widgets.AppWidgetMixin):
-        #     self.widget.set_as_invalid()
-
-        # if self._class_attr in self.widget.attrs.keys():
-        #     classes = self.widget.attrs[self._class_attr]
-        # self.widget.attrs.update({
-        #     self._class_attr: ' '.join([classes, self.invalid_css_class])
-        # })
 
     def validate(self, value):
         try:
@@ -59,16 +51,9 @@ class CharField(AppFieldMixin, fields.CharField):
         )
 
 
-# TODO: não funciona, não carrega o widget padrão
-# UPDATE: descobri um bug no código do django
-class ChoiceField(AppFieldMixin, fields.ChoiceField):
-    widget=widgets.Select
-    def __init__(self, *, choices=(), **kwargs):
-        fields.ChoiceField.__init__(self, choices=choices, **kwargs)
-
-
 class BooleanField(fields.BooleanField):
     pass
+
 
 class TypedChoiceField(AppFieldMixin, fields.TypedChoiceField):
     widget=widgets.Select

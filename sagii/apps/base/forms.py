@@ -25,7 +25,6 @@ class _PessoaFisicaForm(ModelForm):
                 'field_class': ff.CharField,
             }, 
             'sexo': {
-                'label': _('Sexoo'),
                 'choices_field_class': ff.TypedChoiceField,
                 'required': True,
             }, 
@@ -55,7 +54,7 @@ class _PessoaFisicaForm(ModelForm):
         }
 
         get_config_for = lambda config_key, fields_config: { key: config[config_key] 
-            for key, config in fields_config.items() if config and config_key in config}
+            for key, config in fields_config.items() if config and config_key in config }
 
         fields = _fields_config.keys()
         labels = get_config_for('label', _fields_config) 
