@@ -12,3 +12,7 @@ def fvb(model, field_name):
     através do objeto options do model (Model._meta)
     '''
     return model._meta.get_field(field_name).verbose_name
+
+@register.inclusion_tag('commons/pagination.html', takes_context=True)
+def show_pagination(context):
+    return {'page_obj': context['page_obj']}

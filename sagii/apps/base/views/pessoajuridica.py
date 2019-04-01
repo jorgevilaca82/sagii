@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from .. import models as bm
 from .. import forms as bf
 
-DEFAULT_PAGINATE = 20
+DEFAULT_PAGINATE = 5
 MODEL = bm.PessoaJuridica
 
 class ListView(generic.ListView):

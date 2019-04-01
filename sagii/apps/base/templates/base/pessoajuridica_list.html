@@ -1,4 +1,4 @@
-{% extends default_layout %} {% load i18n admin_urls static admin_list %} {% block content %}
+{% extends default_layout %} {% load i18n admin_urls static admin_list model_utils %} {% block content %}
 <div class="row">
     <div class="col-lg-12 col-md-6 col-sm-6">
         <h2>
@@ -19,4 +19,5 @@
         </table>
     </div>
 </div>
-{% include 'base/pagination.html' %} {% endblock %}
+{% show_pagination %}
+{% endblock %}
