@@ -8,6 +8,7 @@ from localflavor.br import models as lf_models
 from sagii.commons import AutoNameEnum, ChoiceEnumCharValueMeta
 from sagii.commons.validators import PhoneRegexValidator
 from sagii.commons.models import AuditableModel
+from sagii.commons.constants import ONE_SPACE
 
 
 class Pessoa(AuditableModel):
@@ -72,7 +73,8 @@ class PessoaFisica(Pessoa):
 
     estado_civil = models.IntegerField(
         choices=ESTADO_CIVIL_CHOICES, 
-        default=EstadoCivil.SOLTEIRO.value
+        null=True, 
+        blank=True
     )
 
     class TipoSanguineo(Enum, metaclass=ChoiceEnumCharValueMeta):
@@ -133,10 +135,10 @@ class PessoaFisica(Pessoa):
         self.nome_razao_social = value
 
     def __str__(self):
-        _s = nome_abreviado = self.nome.split(' ')
+        _s = nome_abreviado = self.nome.split(ONE_SPACE)
         # obtem o primeiro e último nome
         if len(_s) > 1:
-            nome_abreviado = ' '.join(_s[::len(_s)-1])
+            nome_abreviado = ONE_SPACE.join(_s[::len(_s)-1])
         return '{} ({})'.format(nome_abreviado, self.cpf)
 
     def __unicode__(self):

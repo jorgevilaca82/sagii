@@ -498,6 +498,18 @@
     <!-- Main content -->
     <section class="content">
 
+      {% if messages %}
+      <div class="messages">
+          {% for message in messages %}
+          <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
+              {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Importante: {% endif %}
+              {{ message }}
+          </div>
+          {% endfor %}
+      </div>
+      {% endif %}
+
+
       {% block content %}
       {% endblock content %}
 

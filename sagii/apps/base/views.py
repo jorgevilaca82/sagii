@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 from django.http import HttpResponse
 from django.forms import modelform_factory, formset_factory
+from django.contrib.messages.views import SuccessMessageMixin
 # Create your views here.
 
 from . import models as bm
@@ -28,9 +29,10 @@ class PessoaFisicaListView(generic.ListView):
     ordering = '-id'
 
 
-class PessoaFisicaCreateView(generic.CreateView):
+class PessoaFisicaCreateView(SuccessMessageMixin, generic.CreateView):
     model = bm.PessoaFisica
     form_class = bf.PessoaFisicaForm
+    success_message = model._meta.verbose_name + " com CPF n. %(cpf)s cadastrada com sucesso!"
 
 
 class PessoaFisicaDetailView(generic.DetailView):
