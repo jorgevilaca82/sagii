@@ -12,7 +12,6 @@ DEFAULT_PAGINATE = 20
 MODEL = bm.PessoaFisica
 
 class ListView(generic.ListView):
-    context_object_name = 'pessoafisica_list'
     paginate_by = DEFAULT_PAGINATE
     model = MODEL
     ordering = '-id'

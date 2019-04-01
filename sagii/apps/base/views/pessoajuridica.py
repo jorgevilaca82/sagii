@@ -12,10 +12,10 @@ DEFAULT_PAGINATE = 5
 MODEL = bm.PessoaJuridica
 
 class ListView(generic.ListView):
-    context_object_name = 'pessoajuridica_list'
     paginate_by = DEFAULT_PAGINATE
     model = MODEL
     ordering = '-id'
+    extra_context = {'opts': model._meta}
 
 
 class CreateView(SuccessMessageMixin, generic.CreateView):
