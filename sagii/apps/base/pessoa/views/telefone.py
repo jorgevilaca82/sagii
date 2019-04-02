@@ -20,7 +20,7 @@ class ListView(generic.ListView):
 
     def get_queryset(self):
         self.pessoa = get_object_or_404(bm.Pessoa, pk=self.kwargs['pessoa_id'])
-        return MODEL.objects.filter(pessoa=self.pessoa)
+        return self.model.objects.filter(pessoa=self.pessoa)
 
 
 # class CreateView(SuccessMessageMixin, generic.CreateView):
