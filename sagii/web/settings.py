@@ -142,3 +142,5 @@ STATICFILES_DIRS = [
 
 
 # DEFAULT_LAYOUT = 'layout.html'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
