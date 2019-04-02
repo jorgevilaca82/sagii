@@ -5,11 +5,12 @@ from sagii.commons.messages.views import SuccessMessageOnDeleteMixin
 from django.urls import reverse_lazy
 # Create your views here.
 
+from .models import PessoaFisica
 from .. import models as bm
-from .. import forms as bf
+from . import forms as bf
 
-DEFAULT_PAGINATE = 20
-MODEL = bm.PessoaFisica
+DEFAULT_PAGINATE = 5
+MODEL = PessoaFisica
 
 class ListView(generic.ListView):
     paginate_by = DEFAULT_PAGINATE

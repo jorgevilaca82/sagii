@@ -1,0 +1,9 @@
+{% extends default_layout %}
+
+{% block content %}
+<ul>
+{% for tel in telefone_list %}
+    <li>{{ tel }}</li>
+{% endfor %}
+</ul>
+{% endblock content %}
