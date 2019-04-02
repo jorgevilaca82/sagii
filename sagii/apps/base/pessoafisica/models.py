@@ -1,15 +1,15 @@
 from enum import Enum, IntEnum, auto
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from sagii.commons import AutoNameEnum, ChoiceEnumCharValueMeta
-from sagii.commons.constants import ONE_SPACE
 from localflavor.br import models as lf_models
 
+from sagii.commons import ChoiceEnumCharValueMeta
+from sagii.commons.constants import ONE_SPACE
 from ..models.pessoa import Pessoa
 
 
 class PessoaFisica(Pessoa):
-
     class Meta:
         verbose_name = _('Pessoa Física')
         verbose_name_plural = _('Pessoas Físicas')
@@ -24,9 +24,9 @@ class PessoaFisica(Pessoa):
     )
 
     sexo = models.CharField(
-        max_length=1, 
-        choices=SEXO_CHOICES, 
-        null=True, 
+        max_length=1,
+        choices=SEXO_CHOICES,
+        null=True,
         blank=True
     )
 
@@ -45,8 +45,8 @@ class PessoaFisica(Pessoa):
     )
 
     estado_civil = models.IntegerField(
-        choices=ESTADO_CIVIL_CHOICES, 
-        null=True, 
+        choices=ESTADO_CIVIL_CHOICES,
+        null=True,
         blank=True
     )
 
@@ -59,11 +59,11 @@ class PessoaFisica(Pessoa):
         ABN = 'AB-'
         OP = 'O+'
         ON = 'O-'
-    
+
     tipo_sanguineo = models.CharField(
-        max_length=3, 
-        choices=TipoSanguineo, 
-        blank=True, 
+        max_length=3,
+        choices=TipoSanguineo,
+        blank=True,
         null=True
     )
 
@@ -111,7 +111,7 @@ class PessoaFisica(Pessoa):
         _s = nome_abreviado = self.nome.split(ONE_SPACE)
         # obtem o primeiro e último nome
         if len(_s) > 1:
-            nome_abreviado = ONE_SPACE.join(_s[::len(_s)-1])
+            nome_abreviado = ONE_SPACE.join(_s[::len(_s) - 1])
         return '{} ({})'.format(nome_abreviado, self.cpf)
 
     def __unicode__(self):
@@ -123,7 +123,6 @@ class PessoaFisica(Pessoa):
 
 
 class RelacaoDependencia(models.Model):
-
     responsavel = models.ForeignKey(
         PessoaFisica,
         on_delete=models.PROTECT,
@@ -150,13 +149,12 @@ class RelacaoDependencia(models.Model):
     )
 
     grau_parentesco = models.IntegerField(
-        choices=GRAU_PARENTESCO_CHOICES, 
+        choices=GRAU_PARENTESCO_CHOICES,
         null=True
     )
 
     grau_parentesco_outro = models.CharField(
-        max_length=60, 
-        blank=True, 
+        max_length=60,
+        blank=True,
         null=True
     )
- 

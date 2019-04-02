@@ -1,10 +1,10 @@
-from django.test import TestCase
 from django.core.exceptions import ValidationError
+from django.test import TestCase
+
 from ..models import *
 
 
 class PessoaTestCase(TestCase):
-
     fixtures = ('documentopessoatipo.yaml',)
 
     def setUp(self):
@@ -12,7 +12,6 @@ class PessoaTestCase(TestCase):
             nome_razao_social='Instituto Federal de Rondônia - IFRO')
 
     def test_pessoa_p1_exists(self):
-
         p1 = Pessoa.objects.filter(nome_razao_social__icontains='ifro')
 
         self.assertTrue(
@@ -70,7 +69,7 @@ class PessoaTestCase(TestCase):
 
         c1_whatsapp = ContatoSocial(
             tipo=ContatoSocial.Tipo.WHATSAPP, valor='+55 69 9.9999-1234', pessoa=self.p1)
-        
+
         c1_whatsapp.save()
 
         self.assertEquals(c1_whatsapp.pk, 1)
@@ -90,7 +89,7 @@ class PessoaTestCase(TestCase):
             self.assertTrue('numero' in target)
 
         c1_cel.numero = '69 99999-1234'
-        
+
         # número válido não lança exceção
         self.assertIsNone(c1_cel.full_clean())
         c1_cel.save()
@@ -99,8 +98,6 @@ class PessoaTestCase(TestCase):
 
     def test_pessoa_p1_tem_documento_pessoal(self):
         self.assertEquals(self.p1.base_documentopessoal_related.count(), 0)
-
-
 
         doc_tipos = DocumentoPessoalTipo.objects.all()
 

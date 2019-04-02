@@ -1,14 +1,12 @@
-from django.forms import (modelform_factory, ModelForm,)
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
-
+from django.forms import (modelform_factory, ModelForm, )
 from django.utils.translation import gettext_lazy as _
 
 from . import models as bm
 
 
 class _PessoaFisicaForm(ModelForm):
-    
     class Meta:
         model = bm.PessoaFisica
 
@@ -39,7 +37,7 @@ class _PessoaFisicaForm(ModelForm):
             'natural_uf': True,
             'nacionalidade': True,
         }
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -66,5 +64,6 @@ class _PessoaFisicaForm(ModelForm):
             'falecido',
             Submit('submit', 'Salvar'),
         )
+
 
 PessoaFisicaForm = modelform_factory(bm.PessoaFisica, form=_PessoaFisicaForm)

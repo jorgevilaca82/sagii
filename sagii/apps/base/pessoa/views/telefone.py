@@ -1,16 +1,15 @@
-from django.views import generic
-from django.forms import modelform_factory, formset_factory
-from django.contrib.messages.views import SuccessMessageMixin
-from sagii.commons.messages.views import SuccessMessageOnDeleteMixin
-from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
-# Create your views here.
+from django.views import generic
 
 from ... import models as bm
+
+# Create your views here.
+
 # from . import forms as bf
 
 DEFAULT_PAGINATE = 5
 MODEL = bm.Telefone
+
 
 class ListView(generic.ListView):
     paginate_by = DEFAULT_PAGINATE
@@ -21,7 +20,6 @@ class ListView(generic.ListView):
     def get_queryset(self):
         self.pessoa = get_object_or_404(bm.Pessoa, pk=self.kwargs['pessoa_id'])
         return self.model.objects.filter(pessoa=self.pessoa)
-
 
 # class CreateView(SuccessMessageMixin, generic.CreateView):
 #     model = MODEL
@@ -40,7 +38,7 @@ class ListView(generic.ListView):
 #         context["docs_formset"] = self.DocumentoPessoalFormSet(
 #             initial=[{'tipo': tipo} for tipo in bm.DocumentoPessoalTipo.objects.all()])
 #         return context
-    
+
 
 # class UpdateView(SuccessMessageMixin, generic.UpdateView):
 #     model = MODEL

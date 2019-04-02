@@ -1,14 +1,11 @@
-from django.db import models
-from sagii.apps.base import models as bm # (bm) base models
-from sagii.apps.recursos_humanos import models as rhm
-from enum import IntEnum, auto
 from django.utils.translation import gettext_lazy as _
-from sagii.apps.base import models as bm
-from sagii.apps.administracao import models as adm
-from sagii.apps.recursos_humanos import models as rhm
 
+from sagii.apps.administracao import models as adm
+from sagii.apps.base import models as bm
+from sagii.apps.recursos_humanos import models as rhm
 # import de models para inclusão nas migrations
-from .processo_seletivo.models import * # no-qa 
+from .processo_seletivo.models import *  # no-qa
+
 
 class Aluno(models.Model):
     """
@@ -31,20 +28,19 @@ class Aluno(models.Model):
     # RA - Registro de Aluno (identificador de matricula)
     ra = models.CharField(max_length=255)
     pessoa_fisica = models.ForeignKey(bm.PessoaFisica, on_delete=models.PROTECT)
-    
+
 
 class Professor(rhm.Funcionario):
-    
     class Meta:
         pass
-    
+
     class Titulacao(IntEnum):
         GRADUACAO = auto()
         ESPECIALIZACAO = auto()
         MESTRADO = auto()
         DOUTORADO = auto()
         POS_DOUTORADO = auto()
-    
+
     PROFESSOR_TITULACAO_CHOICES = (
         (Titulacao.GRADUACAO.value, _('Gradução')),
         (Titulacao.ESPECIALIZACAO.value, _('Especialização')),
@@ -52,7 +48,7 @@ class Professor(rhm.Funcionario):
         (Titulacao.DOUTORADO.value, _('Doutorado')),
         (Titulacao.POS_DOUTORADO.value, _('Pós Doutorado')),
     )
-    
+
     titulacao = models.IntegerField(choices=PROFESSOR_TITULACAO_CHOICES)
 
 
@@ -61,7 +57,6 @@ class Campus(bm.PessoaJuridica):
 
 
 class DiretoriaEnsino(adm.Setor):
-    
     class Meta:
         pass
 
@@ -69,7 +64,6 @@ class DiretoriaEnsino(adm.Setor):
 
 
 class Curso(models.Model):
-        
     class Meta:
         pass
 

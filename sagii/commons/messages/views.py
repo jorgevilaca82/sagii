@@ -1,5 +1,6 @@
 from django.contrib import messages
 
+
 class SuccessMessageOnDeleteMixin(object):
     """
     Add a success message on successful form delete submission.

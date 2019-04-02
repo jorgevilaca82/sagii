@@ -119,3 +119,5 @@ static/
 static_dev/
 node_modules/
 
+.idea
+

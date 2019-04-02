@@ -1,15 +1,16 @@
-from django.db import models
-
-from sagii.apps.base import models as bm # (bm) base models
-from sagii.apps.administracao import models as adm # (adm) administracao models
 from enum import IntEnum, auto
+
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from sagii.apps.administracao import models as adm  # (adm) administracao models
+from sagii.apps.base import models as bm  # (bm) base models
+
+
 class Funcionario(bm.PessoaFisica):
-    
     class Meta:
         pass
-    
+
     class Tipo(IntEnum):
         CLT_PERMANENTE = auto()
         CLT_TEMPORARIO = auto()
@@ -28,7 +29,7 @@ class Funcionario(bm.PessoaFisica):
         (Tipo.TRAINEE.value, _('Trainee')),
         (Tipo.MENOR_APRENDIZ.value, _('Menor Aprendiz')),
     )
-    
+
     tipo = models.IntegerField(choices=FUNCIONARIO_TIPO_CHOICES)
 
     matricula = models.CharField(max_length=25)
@@ -40,32 +41,32 @@ class Funcionario(bm.PessoaFisica):
     class ServidorManager(models.Manager):
         def get_queryset(self):
             return (super().get_queryset()
-                .filter(tipo = Funcionario.Tipo.SERVIDOR_PUBLICO))
-    
+                    .filter(tipo=Funcionario.Tipo.SERVIDOR_PUBLICO))
+
     servidores = ServidorManager()
 
     class FuncionariosQuerySet(models.QuerySet):
         def clt_permanentes(self):
-            return self.filter(tipo = Funcionario.Tipo.CLT_PERMANENTE)
+            return self.filter(tipo=Funcionario.Tipo.CLT_PERMANENTE)
 
         def clt_temporarios(self):
-            return self.filter(tipo = Funcionario.Tipo.CLT_TEMPORARIO)
-        
+            return self.filter(tipo=Funcionario.Tipo.CLT_TEMPORARIO)
+
         def prestadores_de_servico(self):
-            return self.filter(tipo = Funcionario.Tipo.PRESTADOR_SERVICO)
-        
+            return self.filter(tipo=Funcionario.Tipo.PRESTADOR_SERVICO)
+
         def servidores_publicos(self):
-            return self.filter(tipo = Funcionario.Tipo.SERVIDOR_PUBLICO)
-        
+            return self.filter(tipo=Funcionario.Tipo.SERVIDOR_PUBLICO)
+
         def estagiarios(self):
-            return self.filter(tipo = Funcionario.Tipo.ESTAGIARIO)
-        
+            return self.filter(tipo=Funcionario.Tipo.ESTAGIARIO)
+
         def trainees(self):
-            return self.filter(tipo = Funcionario.Tipo.TRAINEE)
-        
+            return self.filter(tipo=Funcionario.Tipo.TRAINEE)
+
         def menores_aprendiz(self):
-            return self.filter(tipo = Funcionario.Tipo.MENOR_APRENDIZ)
-    
+            return self.filter(tipo=Funcionario.Tipo.MENOR_APRENDIZ)
+
     funcionarios = FuncionariosQuerySet.as_manager()
 
     @classmethod

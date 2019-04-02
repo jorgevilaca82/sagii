@@ -1,5 +1,7 @@
 from django.contrib import admin
+
 from sagii.apps.base import models as bm
+
 
 # Register your models here.
 
@@ -9,8 +11,8 @@ class EnderecoInline(admin.StackedInline):
 
     fieldsets = (
         (None, {'fields': (
-            ('tipo', 'cep', 'logradouro', 'numero'), 
-            ('bairro', 'cidade', 'uf'), 
+            ('tipo', 'cep', 'logradouro', 'numero'),
+            ('bairro', 'cidade', 'uf'),
             ('complemento', 'principal')
         )}),
     )
@@ -33,8 +35,8 @@ class TelefoneInline(admin.TabularInline):
 
 class PessoaAdminMixin(admin.ModelAdmin):
     inlines = (
-        DocumentoPessoalInline, 
-        EnderecoInline, 
+        DocumentoPessoalInline,
+        EnderecoInline,
         ContatoSocialInline,
         TelefoneInline,
     )
@@ -51,7 +53,7 @@ class PessoaFisicaAdmin(PessoaAdminMixin):
             ('natural_cidade', 'natural_uf'),
         )}),
     )
-    
+
 
 @admin.register(bm.PessoaJuridica)
 class PessoaJuridicaAdmin(PessoaAdminMixin):

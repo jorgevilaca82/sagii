@@ -1,10 +1,12 @@
-from django.db import models
-from sagii.apps.base.models import PessoaFisica
 from enum import IntEnum, auto
+
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-class InscricaoCandidato(models.Model):
+from sagii.apps.base.models import PessoaFisica
 
+
+class InscricaoCandidato(models.Model):
     class Status(IntEnum):
         DEFERIDA = auto()
         INDEFERIDA = auto()

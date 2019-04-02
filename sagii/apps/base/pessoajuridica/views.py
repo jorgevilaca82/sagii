@@ -1,16 +1,18 @@
-from django.views import generic
-from django.forms import modelform_factory, formset_factory
 from django.contrib.messages.views import SuccessMessageMixin
-from sagii.commons.messages.views import SuccessMessageOnDeleteMixin
+from django.forms import modelform_factory
 from django.urls import reverse_lazy
-# Create your views here.
+from django.views import generic
 
+from sagii.commons.messages.views import SuccessMessageOnDeleteMixin
+from . import forms as bf
 from .models import PessoaJuridica
 from .. import models as bm
-from . import forms as bf
+
+# Create your views here.
 
 DEFAULT_PAGINATE = 5
 MODEL = PessoaJuridica
+
 
 class ListView(generic.ListView):
     paginate_by = DEFAULT_PAGINATE
@@ -28,7 +30,8 @@ class CreateView(SuccessMessageMixin, generic.CreateView):
 class DetailView(generic.DetailView):
     model = MODEL
     DocumentoPessoalModelForm = modelform_factory(bm.DocumentoPessoal, fields=('tipo', 'valor', 'observacoes'))
-    # DocumentoPessoalFormSet = formset_factory(DocumentoPessoalModelForm, 
+
+    # DocumentoPessoalFormSet = formset_factory(DocumentoPessoalModelForm,
     #     min_num=bm.DocumentoPessoalTipo.objects.count())
 
     def get_context_data(self, **kwargs):
@@ -36,7 +39,7 @@ class DetailView(generic.DetailView):
         # context["docs_formset"] = self.DocumentoPessoalFormSet(
         #     initial=[{'tipo': tipo} for tipo in bm.DocumentoPessoalTipo.objects.all()])
         return context
-    
+
 
 class UpdateView(SuccessMessageMixin, generic.UpdateView):
     model = MODEL
