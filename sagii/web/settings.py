@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'localflavor',
+    'crispy_forms',
 
     # https://django-bootstrap-breadcrumbs.readthedocs.io/en/latest/
 

@@ -25,6 +25,7 @@ setup(
         "pytz==2018.9",
         "PyYAML>=3.13",
         "sqlparse>=0.2.4",
+        "django-crispy-forms",
     ],
     classifiers=[
         'Environment :: Web Environment',
