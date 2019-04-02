@@ -1,4 +1,4 @@
-# from .base import *
+from .base import *
 
 from .crispy_forms import *
 from .localflavor import *
