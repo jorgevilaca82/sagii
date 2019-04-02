@@ -1,0 +1,15 @@
+---
+app_label: base
+models:
+- model: pessoafisica
+  permissions:
+  - codename: pode_afiliarse
+    name: Pode afiliar-se
+  - codename: pode_desfiliarse
+    name: Pode desfiliar-se
+- model: pessoajuridica
+  permissions:
+  - codename: pode_associarse
+    name: Pode associar-se
+  - codename: pode_desassociarse
+    name: Pode desassociar-se
