@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'q8t5r&=(n01lsvor0!yap_r5p@y0%z+d4egd2od!cahyn+3!*o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -37,18 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'localflavor',
-    'crispy_forms',
-
-    # https://django-bootstrap-breadcrumbs.readthedocs.io/en/latest/
-
-    'sagii.commons',
-
-    'sagii.apps.base',
-    'sagii.apps.administracao',
-    'sagii.apps.academico',
-    'sagii.apps.recursos_humanos',
 ]
 
 MIDDLEWARE = [
@@ -75,8 +63,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                
-                'sagii.commons.context_processors.app_settings'
             ],
         },
     },
@@ -139,8 +125,3 @@ STATICFILES_DIRS = [
     'static_dev',
 #     # '/var/www/static/',
 ]
-
-
-# DEFAULT_LAYOUT = 'layout.html'
-
-CRISPY_TEMPLATE_PACK = 'bootstrap4'

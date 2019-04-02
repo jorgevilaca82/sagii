@@ -19,7 +19,7 @@ setup(
     author='Jorge Vilaça',
     author_email='jorge.vilaca@gmail.com',
     install_requires = [
-        "Django>=2.1",
+        "Django>=2.2",
         "django-localflavor>=2.1",
         # "cached-property==1.5.1", # TODO: Interessante, estudar uso!
         "pytz==2018.9",

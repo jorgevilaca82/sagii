@@ -28,13 +28,13 @@ class CreateView(SuccessMessageMixin, generic.CreateView):
 class DetailView(generic.DetailView):
     model = MODEL
     DocumentoPessoalModelForm = modelform_factory(bm.DocumentoPessoal, fields=('tipo', 'valor', 'observacoes'))
-    DocumentoPessoalFormSet = formset_factory(DocumentoPessoalModelForm, 
-        min_num=bm.DocumentoPessoalTipo.objects.count())
+    # DocumentoPessoalFormSet = formset_factory(DocumentoPessoalModelForm, 
+    #     min_num=bm.DocumentoPessoalTipo.objects.count())
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["docs_formset"] = self.DocumentoPessoalFormSet(
-            initial=[{'tipo': tipo} for tipo in bm.DocumentoPessoalTipo.objects.all()])
+        # context["docs_formset"] = self.DocumentoPessoalFormSet(
+        #     initial=[{'tipo': tipo} for tipo in bm.DocumentoPessoalTipo.objects.all()])
         return context
     
 
