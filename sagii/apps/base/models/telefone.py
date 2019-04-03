@@ -28,3 +28,8 @@ class Telefone(PessoaRelatedModel):
 
     def __str__(self):
         return self.numero
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('sagii_base:pessoa-telefone-detail', kwargs={'pessoa_id': self.pessoa_id, 'pk': self.pk})
+

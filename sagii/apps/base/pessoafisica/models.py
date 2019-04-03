@@ -121,6 +121,11 @@ class PessoaFisica(Pessoa):
         from django.urls import reverse
         return reverse('sagii_base:pessoafisica-detail', kwargs={'pk': self.pk})
 
+    def __init__(self, *args, **kwargs):
+        instance = super().__init__(*args, **kwargs)
+        self._meta.get_field('nome_razao_social').verbose_name = _('Nome Completo')
+        return instance
+
 
 class RelacaoDependencia(models.Model):
     responsavel = models.ForeignKey(

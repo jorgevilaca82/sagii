@@ -25,9 +25,9 @@
   <div class="login-logo">
     <a href="/"><b>SAGII</b>1.0</a>
   </div>
-  
+
   <div>
-  
+
   {% if form.errors %}
   <div class="alert alert-warning">
     Usuário ou senha informados não confere. Tente novamente.
@@ -42,7 +42,7 @@
       <p>Please login to see this page.</p>
       {% endif %}
   {% endif %}
-  
+
   </div>
 
   <!-- /.login-logo -->
@@ -116,16 +116,17 @@
       increaseArea : '20%' // optional
     })
 
+/*
     $(document).ready(() => {
       $username = $('input#id_username')
       $password = $('input#id_password')
       $username.attr('placeholder', 'Usuário:')
       $password.attr('placeholder', 'Senha:')
-      
+
       let list = [$username, $password]
       list.forEach(i => i.addClass('form-control'))
     })
-
+*/
   })
 </script>
 <style>

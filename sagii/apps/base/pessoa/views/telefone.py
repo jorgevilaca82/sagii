@@ -1,11 +1,12 @@
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
 from django.views import generic
 
+from sagii.commons.messages.views import SuccessMessageOnDeleteMixin
 from ... import models as bm
+from .. import forms
 
 # Create your views here.
-
-# from . import forms as bf
 
 DEFAULT_PAGINATE = 5
 MODEL = bm.Telefone
@@ -21,32 +22,37 @@ class ListView(generic.ListView):
         self.pessoa = get_object_or_404(bm.Pessoa, pk=self.kwargs['pessoa_id'])
         return self.model.objects.filter(pessoa=self.pessoa)
 
-# class CreateView(SuccessMessageMixin, generic.CreateView):
-#     model = MODEL
-#     form_class = bf.PessoaFisicaForm
-#     success_message = model._meta.verbose_name + " com CPF n. %(cpf)s cadastrada com sucesso!"
+class CreateView(SuccessMessageMixin, generic.CreateView):
+    model = MODEL
+    form_class = forms.TelefoneForm
+    success_message = model._meta.verbose_name + " com n. %(numero)s cadastrado com sucesso!"
+
+    def form_valid(self, form):
+        pessoa = get_object_or_404(bm.Pessoa, pk=self.kwargs['pessoa_id'])
+        self.object = form.save(commit=False)
+        self.object.pessoa = pessoa
+        self.object.save()
+        return super().form_valid(form)
 
 
-# class DetailView(generic.DetailView):
-#     model = MODEL
-#     DocumentoPessoalModelForm = modelform_factory(bm.DocumentoPessoal, fields=('tipo', 'valor', 'observacoes'))
-#     DocumentoPessoalFormSet = formset_factory(DocumentoPessoalModelForm, 
-#         min_num=bm.DocumentoPessoalTipo.objects.count())
+class DetailView(generic.DetailView):
+    model = MODEL
 
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["docs_formset"] = self.DocumentoPessoalFormSet(
-#             initial=[{'tipo': tipo} for tipo in bm.DocumentoPessoalTipo.objects.all()])
-#         return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 
-# class UpdateView(SuccessMessageMixin, generic.UpdateView):
-#     model = MODEL
-#     form_class = bf.PessoaFisicaForm
-#     success_message = model._meta.verbose_name + " com CPF n. %(cpf)s atualizada com sucesso!"
+class UpdateView(SuccessMessageMixin, generic.UpdateView):
+    model = MODEL
+    form_class = forms.TelefoneForm
+    success_message = model._meta.verbose_name + " com n. %(numero)s atualizada com sucesso!"
 
 
-# class DeleteView(SuccessMessageOnDeleteMixin, generic.DeleteView):
-#     model = MODEL
-#     success_message = model._meta.verbose_name + " com CPF n. %(cpf)s excluída permanentemente!"
-#     success_url = reverse_lazy('sagii_base:pessoafisica-list')
+class DeleteView(SuccessMessageOnDeleteMixin, generic.DeleteView):
+    model = MODEL
+    success_message = model._meta.verbose_name + " com n. %(numero)s excluída permanentemente!"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.success_url = reverse_lazy('sagii_base:pessoa-telefone-list', {'pessoa_id': self.kwargs['pessoa_id']})

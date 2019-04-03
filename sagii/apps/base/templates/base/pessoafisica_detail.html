@@ -61,6 +61,11 @@
                     <div class="tab-pane" id="tab_telefones">
                         <h3>Telefones</h3>
                         count: {{ pessoafisica.base_telefone_related.count }}
+                        <ul>
+                        {% for telefone in pessoafisica.base_telefone_related %}
+                            <li>{{ telefone }}</li>
+                        {% endfor %}
+                        </ul>
                     </div>
                     <div class="tab-pane" id="tab_dependentes">
                         <h3>Dependentes</h3>
