@@ -5,6 +5,9 @@ from django.urls import path, include
 from django.views.generic.base import RedirectView
 
 patterns = [
+
+    path('auth/', include('django.contrib.auth.urls')),
+
     path('admin/', admin.site.urls),
 
     path('base/', include('sagii.apps.base.urls')),
