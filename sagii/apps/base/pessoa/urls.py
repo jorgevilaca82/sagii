@@ -57,33 +57,32 @@ urlpatterns = [
 
         ])),
 
+        path('endereco/', include([
+
+            path('',
+                views.endereco.ListView.as_view(),
+                name='pessoa-endereco-list'),
+
+            path('create',
+                views.endereco.CreateView.as_view(),
+                name='pessoa-endereco-create'),
+
+            path('<int:pk>/',
+                views.endereco.DetailView.as_view(),
+                name='pessoa-endereco-detail'),
+
+            path('<int:pk>/edit',
+                views.endereco.UpdateView.as_view(),
+                name='pessoa-endereco-update'),
+
+            path('<int:pk>/del',
+                views.endereco.DeleteView.as_view(),
+                name='pessoa-endereco-delete'),
+
+        ])),
+
     ])),
 
-
-
-    # path('<int:pessoa_id>/endereco/', include([
-
-    #     path('',
-    #         views.endereco.ListView.as_view(),
-    #         name='pessoa-endereco-list'),
-
-    #     path('create',
-    #         views.endereco.CreateView.as_view(),
-    #         name='pessoa-endereco-create'),
-
-    #     path('<int:pk>/',
-    #         views.endereco.DetailView.as_view(),
-    #         name='pessoa-endereco-detail'),
-
-    #     path('<int:pk>/edit',
-    #         views.endereco.UpdateView.as_view(),
-    #         name='pessoa-endereco-update'),
-
-    #     path('<int:pk>/del',
-    #         views.endereco.DeleteView.as_view(),
-    #         name='pessoa-endereco-delete'),
-
-    # ])),
 
 
     # path('<int:pessoa_id>/documento/', include([

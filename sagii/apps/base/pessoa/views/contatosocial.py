@@ -1,18 +1,18 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import get_object_or_404
 from django.views import generic
+from django.utils.translation import gettext_lazy as _
 
 from sagii.commons.messages.views import SuccessMessageOnDeleteMixin
 from ... import models as bm
 from .. import forms
+
+from . import find_pessoa
 
 # Create your views here.
 
 DEFAULT_PAGINATE = 5
 MODEL = bm.ContatoSocial
 
-def find_pessoa(pk):
-    return get_object_or_404(bm.Pessoa, pk=pk)
 
 class ListView(generic.ListView):
     paginate_by = DEFAULT_PAGINATE
@@ -28,6 +28,11 @@ class CreateView(SuccessMessageMixin, generic.CreateView):
     model = MODEL
     form_class = forms.ContatoSocialForm
     success_message = model._meta.verbose_name + " %(tipo)s %(valor)s cadastrado com sucesso!"
+    template_name = 'base/generic_form.html'
+    extra_context = {
+        'action': _('Cadastrar'),
+        'opts':  model._meta,
+    }
 
     contatos_disabled = []
 
@@ -69,6 +74,11 @@ class UpdateView(SuccessMessageMixin, generic.UpdateView):
     model = MODEL
     form_class = forms.ContatoSocialForm
     success_message = model._meta.verbose_name + " %(tipo)s %(valor)s atualizada com sucesso!"
+    template_name = 'base/generic_form.html'
+    extra_context = {
+        'action': _('Editar'),
+        'opts':  model._meta,
+    }
 
 
 class DeleteView(SuccessMessageOnDeleteMixin, generic.DeleteView):

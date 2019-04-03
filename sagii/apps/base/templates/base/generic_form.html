@@ -1,4 +1,5 @@
-{% extends default_layout %} 
+
+{% extends default_layout %}
 
 {% load crispy_forms_tags %}
 
@@ -7,7 +8,7 @@
     <div class="col-md-8 ml-auto mr-auto">
         <div class="card card-user">
             <div class="card-header">
-                <h5 class="card-title">Cadastrar Pessoa Jurídica</h5>
+                <h5 class="card-title">{{ action }} {{ opts.verbose_name }}</h5>
             </div>
             <div class="card-body">
             {% crispy form %}

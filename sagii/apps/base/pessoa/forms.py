@@ -3,8 +3,6 @@ from crispy_forms.layout import Layout, Submit, Row, Column
 from django.forms import modelform_factory, ModelForm
 from .. import models as bm
 
-from django.forms.fields import TypedChoiceField
-
 class TelefoneForm(ModelForm):
 
     class Meta:
@@ -66,5 +64,32 @@ class ContatoSocialForm(ModelForm):
                 Column('tipo', css_class='form-group col-md-4 mb-0'),
                 Column('valor', css_class='form-group col-md-8 mb-0'),
             ),
+            Submit('submit', 'Salvar'),
+        )
+
+class EnderecoForm(ModelForm):
+    class Meta:
+        model = bm.Endereco
+        exclude = ("pessoa",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('cep', css_class='form-group col-md-2 mb-0'),
+                Column('logradouro', css_class='form-group col-md-8 mb-0'),
+                Column('numero', css_class='form-group col-md-2 mb-0'),
+            ),
+            Row(
+                Column('tipo', css_class='form-group col-md-2 mb-0'),
+                Column('bairro', css_class='form-group col-md-4 mb-0'),
+                Column('complemento', css_class='form-group col-md-6 mb-0'),
+            ),
+            Row(
+                Column('cidade', css_class='form-group col-md-6 mb-0'),
+                Column('uf', css_class='form-group col-md-2 mb-0'),
+            ),
+            'principal',
             Submit('submit', 'Salvar'),
         )

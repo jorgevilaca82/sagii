@@ -42,3 +42,8 @@ class Endereco(PessoaRelatedModel):
 
     # Define se é o endereço principal
     principal = models.BooleanField(default=False)
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        kwargs = {'pessoa_id': self.pessoa_id, 'pk': self.pk}
+        return reverse('sagii_base:pessoa-endereco-detail', kwargs=kwargs)

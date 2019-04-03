@@ -2,6 +2,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.forms import modelform_factory
 from django.urls import reverse_lazy
 from django.views import generic
+from django.utils.translation import gettext_lazy as _
 
 from sagii.commons.messages.views import SuccessMessageOnDeleteMixin
 from . import forms as bf
@@ -25,6 +26,11 @@ class CreateView(SuccessMessageMixin, generic.CreateView):
     model = MODEL
     form_class = bf.PessoaJuridicaForm
     success_message = model._meta.verbose_name + " com CNPJ n. %(cnpj)s cadastrada com sucesso!"
+    template_name = 'base/generic_form.html'
+    extra_context = {
+        'action': _('Cadastrar'),
+        'opts':  model._meta,
+    }
 
 
 class DetailView(generic.DetailView):
@@ -45,6 +51,11 @@ class UpdateView(SuccessMessageMixin, generic.UpdateView):
     model = MODEL
     form_class = bf.PessoaJuridicaForm
     success_message = model._meta.verbose_name + " com CNPJ n. %(cnpj)s atualizada com sucesso!"
+    template_name = 'base/generic_form.html'
+    extra_context = {
+        'action': _('Editar'),
+        'opts':  model._meta,
+    }
 
 
 class DeleteView(SuccessMessageOnDeleteMixin, generic.DeleteView):
