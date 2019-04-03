@@ -81,32 +81,30 @@ urlpatterns = [
 
         ])),
 
+        path('documento/', include([
+
+            path('',
+                views.documento.ListView.as_view(),
+                name='pessoa-documento-list'),
+
+            path('create',
+                views.documento.CreateView.as_view(),
+                name='pessoa-documento-create'),
+
+            path('<int:pk>/',
+                views.documento.DetailView.as_view(),
+                name='pessoa-documento-detail'),
+
+            path('<int:pk>/edit',
+                views.documento.UpdateView.as_view(),
+                name='pessoa-documento-update'),
+
+            path('<int:pk>/del',
+                views.documento.DeleteView.as_view(),
+                name='pessoa-documento-delete'),
+
+        ])),
+
     ])),
-
-
-
-    # path('<int:pessoa_id>/documento/', include([
-
-    #     path('',
-    #         views.documento.ListView.as_view(),
-    #         name='pessoa-documento-list'),
-
-    #     path('create',
-    #         views.documento.CreateView.as_view(),
-    #         name='pessoa-documento-create'),
-
-    #     path('<int:pk>/',
-    #         views.documento.DetailView.as_view(),
-    #         name='pessoa-documento-detail'),
-
-    #     path('<int:pk>/edit',
-    #         views.documento.UpdateView.as_view(),
-    #         name='pessoa-documento-update'),
-
-    #     path('<int:pk>/del',
-    #         views.documento.DeleteView.as_view(),
-    #         name='pessoa-documento-delete'),
-
-    # ])),
 
 ]

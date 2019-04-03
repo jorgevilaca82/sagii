@@ -10,7 +10,7 @@ from . import find_pessoa
 # Create your views here.
 
 DEFAULT_PAGINATE = 5
-MODEL = bm.Telefone
+MODEL = bm.DocumentoPessoal
 
 
 class ListView(generic.ListView):
@@ -23,10 +23,11 @@ class ListView(generic.ListView):
         self.pessoa = find_pessoa(self.kwargs['pessoa_id'])
         return self.model.objects.filter(pessoa=self.pessoa)
 
+
 class CreateView(SuccessMessageMixin, generic.CreateView):
     model = MODEL
-    form_class = forms.TelefoneForm
-    success_message = model._meta.verbose_name + " com n. %(numero)s cadastrado com sucesso!"
+    form_class = forms.DocumentoForm
+    success_message = model._meta.verbose_name + " com n. %(valor)s cadastrado com sucesso!"
     template_name = 'base/generic_form.html'
     extra_context = {
         'action': _('Cadastrar'),
@@ -51,8 +52,8 @@ class DetailView(generic.DetailView):
 
 class UpdateView(SuccessMessageMixin, generic.UpdateView):
     model = MODEL
-    form_class = forms.TelefoneForm
-    success_message = model._meta.verbose_name + " com n. %(numero)s atualizada com sucesso!"
+    form_class = forms.DocumentoForm
+    success_message = model._meta.verbose_name + " com n. %(valor)s atualizada com sucesso!"
     template_name = 'base/generic_form.html'
     extra_context = {
         'action': _('Editar'),
@@ -62,7 +63,7 @@ class UpdateView(SuccessMessageMixin, generic.UpdateView):
 
 class DeleteView(SuccessMessageOnDeleteMixin, generic.DeleteView):
     model = MODEL
-    success_message = model._meta.verbose_name + " com n. %(numero)s excluída permanentemente!"
+    success_message = model._meta.verbose_name + " com n. %(valor)s excluída permanentemente!"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

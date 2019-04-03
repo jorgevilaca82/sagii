@@ -93,3 +93,20 @@ class EnderecoForm(ModelForm):
             'principal',
             Submit('submit', 'Salvar'),
         )
+
+class DocumentoForm(ModelForm):
+    class Meta:
+        model = bm.DocumentoPessoal
+        exclude = ("pessoa",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('tipo', css_class='form-group col-md-4 mb-0'),
+                Column('valor', css_class='form-group col-md-8 mb-0'),
+            ),
+            'observacoes',
+            Submit('submit', 'Salvar'),
+        )

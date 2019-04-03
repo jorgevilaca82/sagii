@@ -30,3 +30,8 @@ class DocumentoPessoal(PessoaRelatedModel):
 
     def __str__(self):
         return '{}: {}'.format(self.tipo, self.valor)
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        kwargs = {'pessoa_id': self.pessoa_id, 'pk': self.pk}
+        return reverse('sagii_base:pessoa-documento-detail', kwargs=kwargs)

@@ -4,6 +4,9 @@ from ... import models as bm
 def find_pessoa(pk):
     return get_object_or_404(bm.Pessoa, pk=pk)
 
-from . import telefone
-from . import contatosocial
-from . import endereco
+from . import (
+    telefone,
+    contatosocial,
+    endereco,
+    documento
+)
