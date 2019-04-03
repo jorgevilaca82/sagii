@@ -1,0 +1,9 @@
+{% extends default_layout %}
+
+{% block content %}
+<ul>
+{% for contatosocial in contatosocial_list %}
+    <li>{{ contatosocial }}</li>
+{% endfor %}
+</ul>
+{% endblock content %}

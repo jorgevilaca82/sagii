@@ -17,4 +17,5 @@ urlpatterns = [
     path('pessoafisica/', include(pessoafisica_urls)),
     path('pessoajuridica/', include(pessoajuridica_urls)),
     path('pessoa/', include(pessoa_urls)),
+    # path('reviews/', include((pessoa_urls, 'reviews'), namespace='reviews')),
 ]

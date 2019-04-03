@@ -29,4 +29,11 @@ class ContatoSocial(PessoaRelatedModel):
     valor = models.CharField(max_length=60)
 
     def __str__(self):
-        return '{}: {}'.format(self.tipo.value.title(), self.valor)
+        return '{}: {}'.format(self.tipo.title(), self.valor)
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        kwargs = {'pessoa_id': self.pessoa_id, 'pk': self.pk}
+        return reverse('sagii_base:pessoa-contatosocial-detail', kwargs=kwargs)
+
+
