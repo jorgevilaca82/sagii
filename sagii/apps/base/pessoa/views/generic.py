@@ -1,21 +1,23 @@
-from django.contrib.messages.views import SuccessMessageMixin
-from django.views import generic
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import get_object_or_404
 
-from sagii.commons.messages.views import SuccessMessageOnDeleteMixin
+from sagii.commons.views import generic
 from ... import models as bm
-from .. import forms
+
+
+import mimetypes
+
+JSON_MIMETYPE = mimetypes.types_map['.json']
+
+def wants_json(request):
+    return (
+        request.META.get('HTTP_ACCEPT') == JSON_MIMETYPE or
+        request.GET.get('format') == 'json'
+    )
 
 
 def find_pessoa(pk):
     return get_object_or_404(bm.Pessoa, pk=pk)
-
-
-class ModelOptsMixin(object):
-    def get_context_data(self, **kwargs):
-        kwargs['opts'] = self.model._meta
-        return super().get_context_data(**kwargs)
 
 
 class PessoaQuerySetFilterMixin(object):
@@ -25,14 +27,17 @@ class PessoaQuerySetFilterMixin(object):
         return super().get_queryset()
 
 
-class ListView(ModelOptsMixin, PessoaQuerySetFilterMixin, generic.ListView):
+class ListView(PessoaQuerySetFilterMixin, generic.ListView):
     paginate_by = 5
     ordering = ['-id']
-        
 
-class CreateView(SuccessMessageMixin, ModelOptsMixin, generic.CreateView):
-    template_name = 'base/generic_form.html'
-    extra_context = {'action': _('Cadastrar'),}
+    # def render_to_response(self, context, **response_kwargs):
+    #     if self.request.is_ajax() or wants_json(self.request):
+    #         print("aceita resposta json", context)
+    #     return super().render_to_response(context, **response_kwargs)
+
+
+class CreateView(generic.CreateView):
     pessoa = None
 
     def dispatch(self, *args, **kwargs):
@@ -48,17 +53,11 @@ class CreateView(SuccessMessageMixin, ModelOptsMixin, generic.CreateView):
 class DetailView(PessoaQuerySetFilterMixin, generic.DetailView):
     pass
 
-class UpdateView(SuccessMessageMixin, ModelOptsMixin, generic.UpdateView):
-    model = None
-    template_name = 'base/generic_form.html'
-    extra_context = {'action': _('Editar'),}
+class UpdateView(generic.UpdateView):
+    pass
 
 
-class DeleteView(SuccessMessageOnDeleteMixin, generic.DeleteView):
-    model = None
+class DeleteView(generic.DeleteView):
     success_url_name = None
+    success_params = ['pessoa_id',]
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.success_url = reverse_lazy(self.success_url_name, 
-            {'pessoa_id': self.kwargs['pessoa_id']})

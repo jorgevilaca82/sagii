@@ -4,6 +4,7 @@ from . import generic
 
 
 MODEL = bm.Telefone
+FORM_CLASS = forms.TelefoneForm
 
 
 class ListView(generic.ListView):
@@ -12,7 +13,7 @@ class ListView(generic.ListView):
 
 class CreateView(generic.CreateView):
     model = MODEL
-    form_class = forms.TelefoneForm
+    form_class = FORM_CLASS
     success_message = model._meta.verbose_name + " com n. %(numero)s cadastrado com sucesso!"
 
 
@@ -22,7 +23,7 @@ class DetailView(generic.DetailView):
 
 class UpdateView(generic.UpdateView):
     model = MODEL
-    form_class = forms.TelefoneForm
+    form_class = FORM_CLASS
     success_message = model._meta.verbose_name + " com n. %(numero)s atualizada com sucesso!"
 
 

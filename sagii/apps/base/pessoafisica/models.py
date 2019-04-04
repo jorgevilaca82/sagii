@@ -6,7 +6,7 @@ from localflavor.br import models as lf_models
 
 from sagii.commons import ChoiceEnumCharValueMeta
 from sagii.commons.constants import ONE_SPACE
-from ..models.pessoa import Pessoa
+from ..pessoa.models import Pessoa
 
 
 class PessoaFisica(Pessoa):

@@ -46,3 +46,4 @@ class DeleteView(generic.DeleteView):
     model = MODEL
     success_message = model._meta.verbose_name + " %(tipo)s %(valor)s excluída permanentemente!"
     success_url_name = 'sagii_base:pessoa-conatosocial-list'
+
