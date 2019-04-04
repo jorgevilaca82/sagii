@@ -20,6 +20,11 @@ class CreateView(SuccessMessageMixin, ModelOptsMixin, generic.CreateView):
     template_name = 'base/generic_form.html'
     extra_context = {'action': _('Cadastrar'),}
 
+    def post(self, request, *args, **kwargs):
+        self.success_url = request.GET.get('redirect', None)
+        return super().post(request, *args, **kwargs)
+
+
 class DetailView(generic.DetailView):
     pass
 

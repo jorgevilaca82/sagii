@@ -27,3 +27,7 @@ def fvb(model, field_name):
 @register.filter
 def label_for(model, field_name):
     return model._meta.get_field(field_name).verbose_name
+
+@register.filter
+def label_for_field(opts, field_name):
+    return opts.get_field(field_name).verbose_name

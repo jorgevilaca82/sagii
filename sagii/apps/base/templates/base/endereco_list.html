@@ -1,4 +1,4 @@
-{% extends default_layout %} 
+{% extends default_layout %}
 {% load model_utils %}
 {% block content %}
 <div class="card">
@@ -11,34 +11,7 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body p-0">
-        <table class="table">
-            <tr>
-                <th style="width: 10px">#</th>
-                <th>tipo</th>
-                <th>cep</th>
-                <th>logradouro</th>
-                <th>complemento</th>
-                <th>bairro</th>
-                <th>numero</th>
-                <th>cidade</th>
-                <th>uf</th>
-                <th>principal</th>
-            </tr>
-            {% for endereco in endereco_list %}
-            <tr>
-                <td>{{ endereco.pk }}</td>
-                <td>{{ endereco.get_tipo_display }}</td>
-                <td>{{ endereco.cep }}</td>
-                <td>{{ endereco.logradouro|truncatewords:3 }}</td>
-                <td>{{ endereco.complemento|truncatewords:3 }}</td>
-                <td>{{ endereco.bairro }}</td>
-                <td>{{ endereco.numero }}</td>
-                <td>{{ endereco.cidade }}</td>
-                <td>{{ endereco.uf }}</td>
-                <td>{{ endereco.principal }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+    {% include 'base/_endereco_list.html' with endereco_list=endereco_list %}
     </div>
     <!-- /.card-body -->
 </div>

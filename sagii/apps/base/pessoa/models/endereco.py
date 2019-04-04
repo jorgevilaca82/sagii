@@ -11,7 +11,7 @@ class Endereco(PessoaRelatedModel):
     class Meta:
         verbose_name = _('Endereço')
         verbose_name_plural = _('Endereços')
-        unique_together = ('pessoa', 'principal')
+        # unique_together = ('pessoa', 'principal')
 
     class Tipo(IntEnum):
         COMERCIAL = 1

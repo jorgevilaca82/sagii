@@ -1,4 +1,4 @@
-{% extends default_layout %} {% load model_utils %} {% block content %}
+{% extends default_layout %} {% load model_utils html_utils %} {% block content %}
 <div class="row">
     <div class="col-12">
         <!-- Custom Tabs -->
@@ -55,7 +55,12 @@
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="tab_enderecos">
                         <h3>Endereços</h3>
+                        <div class="card-tools">
+                            {% build_qs redirect=request.get_full_path as qs %}
+                            <a class="btn btn-sm btn-success mr-2" href="{% url 'sagii_base:pessoa-endereco-create' pessoa_id=pessoafisica.pk %}{{qs|safe}}">Cadastrar novo</a>
+                        </div>
                         count: {{ pessoafisica.base_endereco_related.count }}
+                        {% include 'base/_endereco_list.html' with endereco_list=pessoafisica.base_endereco_related.all %}
                     </div>
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="tab_telefones">
