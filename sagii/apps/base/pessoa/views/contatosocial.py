@@ -1,13 +1,7 @@
-from django.contrib.messages.views import SuccessMessageMixin
-# from django.views import generic
-from django.utils.translation import gettext_lazy as _
-
-from sagii.commons.messages.views import SuccessMessageOnDeleteMixin
 from ... import models as bm
 from .. import forms
-
 from . import generic
-from . import find_pessoa
+
 
 MODEL = bm.ContatoSocial
 
@@ -19,25 +13,10 @@ class CreateView(generic.CreateView):
     model = MODEL
     form_class = forms.ContatoSocialForm
     success_message = model._meta.verbose_name + " %(tipo)s %(valor)s cadastrado com sucesso!"
-    template_name = 'base/generic_form.html'
-    extra_context = {
-        'action': _('Cadastrar'),
-        'opts':  model._meta,
-    }
 
     contatos_disabled = []
 
     pessoa = None
-
-    def dispatch(self, *args, **kwargs):
-        self.pessoa = find_pessoa(self.kwargs['pessoa_id'])
-        return super().dispatch(*args, **kwargs)
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.pessoa = self.pessoa
-        self.object.save()
-        return super().form_valid(form)
 
     def get_form_kwargs(self):
         """Return the keyword arguments for instantiating the form."""
@@ -56,26 +35,14 @@ class CreateView(generic.CreateView):
 class DetailView(generic.DetailView):
     model = MODEL
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
 
 class UpdateView(generic.UpdateView):
     model = MODEL
     form_class = forms.ContatoSocialForm
     success_message = model._meta.verbose_name + " %(tipo)s %(valor)s atualizada com sucesso!"
-    template_name = 'base/generic_form.html'
-    extra_context = {
-        'action': _('Editar'),
-        'opts':  model._meta,
-    }
 
 
 class DeleteView(generic.DeleteView):
     model = MODEL
     success_message = model._meta.verbose_name + " %(tipo)s %(valor)s excluída permanentemente!"
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.success_url = reverse_lazy('sagii_base:pessoa-conatosocial-list', {'pessoa_id': self.kwargs['pessoa_id']})
+    success_url_name = 'sagii_base:pessoa-conatosocial-list'

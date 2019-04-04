@@ -1,0 +1,45 @@
+{% extends default_layout %} 
+{% load model_utils %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">{{ opts.verbose_name_plural|title }}</h3>
+
+        <div class="card-tools">
+            {% show_pagination class='pagination pagination-sm m-0 float-right' %}
+        </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+        <table class="table">
+            <tr>
+                <th style="width: 10px">#</th>
+                <th>tipo</th>
+                <th>cep</th>
+                <th>logradouro</th>
+                <th>complemento</th>
+                <th>bairro</th>
+                <th>numero</th>
+                <th>cidade</th>
+                <th>uf</th>
+                <th>principal</th>
+            </tr>
+            {% for endereco in endereco_list %}
+            <tr>
+                <td>{{ endereco.pk }}</td>
+                <td>{{ endereco.get_tipo_display }}</td>
+                <td>{{ endereco.cep }}</td>
+                <td>{{ endereco.logradouro|truncatewords:3 }}</td>
+                <td>{{ endereco.complemento|truncatewords:3 }}</td>
+                <td>{{ endereco.bairro }}</td>
+                <td>{{ endereco.numero }}</td>
+                <td>{{ endereco.cidade }}</td>
+                <td>{{ endereco.uf }}</td>
+                <td>{{ endereco.principal }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+{% endblock content %}
