@@ -62,7 +62,7 @@
                         <h3>Telefones</h3>
                         count: {{ pessoafisica.base_telefone_related.count }}
                         <ul>
-                        {% for telefone in pessoafisica.base_telefone_related %}
+                        {% for telefone in pessoafisica.base_telefone_related.all %}
                             <li>{{ telefone }}</li>
                         {% endfor %}
                         </ul>

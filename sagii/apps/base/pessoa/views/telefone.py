@@ -1,5 +1,5 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views import generic
+# from django.views import generic
 from django.utils.translation import gettext_lazy as _
 
 from sagii.commons.messages.views import SuccessMessageOnDeleteMixin
@@ -7,24 +7,18 @@ from ... import models as bm
 from .. import forms
 
 from . import find_pessoa
+from . import generic
 
 # Create your views here.
 
-DEFAULT_PAGINATE = 5
 MODEL = bm.Telefone
 
 
 class ListView(generic.ListView):
-    paginate_by = DEFAULT_PAGINATE
     model = MODEL
-    ordering = '-id'
-    extra_context = {'opts': model._meta}
 
-    def get_queryset(self):
-        self.pessoa = find_pessoa(self.kwargs['pessoa_id'])
-        return self.model.objects.filter(pessoa=self.pessoa)
 
-class CreateView(SuccessMessageMixin, generic.CreateView):
+class CreateView(generic.CreateView):
     model = MODEL
     form_class = forms.TelefoneForm
     success_message = model._meta.verbose_name + " com n. %(numero)s cadastrado com sucesso!"
@@ -50,7 +44,7 @@ class DetailView(generic.DetailView):
         return context
 
 
-class UpdateView(SuccessMessageMixin, generic.UpdateView):
+class UpdateView(generic.UpdateView):
     model = MODEL
     form_class = forms.TelefoneForm
     success_message = model._meta.verbose_name + " com n. %(numero)s atualizada com sucesso!"
@@ -60,7 +54,7 @@ class UpdateView(SuccessMessageMixin, generic.UpdateView):
         'opts':  model._meta,
     }
 
-class DeleteView(SuccessMessageOnDeleteMixin, generic.DeleteView):
+class DeleteView(generic.DeleteView):
     model = MODEL
     success_message = model._meta.verbose_name + " com n. %(numero)s excluída permanentemente!"
 

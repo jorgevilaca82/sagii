@@ -1,5 +1,5 @@
 {% if page_obj.has_other_pages %}
-<ul class="pagination">
+<ul{% for name, value in attrs.items %}{% if value is not False %} {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}{% endif %}{% endfor %} class="pagination">
     {% if page_obj.has_previous %}
     <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
     {% else %}
