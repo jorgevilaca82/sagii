@@ -28,6 +28,7 @@ class CreateView(SuccessMessageMixin, ModelOptsMixin, generic.CreateView):
 class DetailView(generic.DetailView):
     pass
 
+
 class UpdateView(SuccessMessageMixin, ModelOptsMixin, generic.UpdateView):
     model = None
     template_name = 'base/generic_form.html'

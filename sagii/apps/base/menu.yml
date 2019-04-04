@@ -1,0 +1,7 @@
+---
+- menu: Cadastros
+  items:
+  - label: Pessoa Física
+    link: 'sagii_base:pessoafisica-list'
+  - label: Pessoa Jurídica
+    link: 'sagii_base:pessoajuridica-list'

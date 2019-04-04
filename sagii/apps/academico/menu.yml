@@ -1,0 +1,7 @@
+---
+- menu: Acadêmico
+  items:
+  - label: Aluno
+    link: 'sagii_base:pessoafisica-list'
+  - label: Professor
+    link: 'sagii_base:pessoajuridica-list'
