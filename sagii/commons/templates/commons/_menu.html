@@ -1,0 +1,26 @@
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    {% for md in menu_data %}
+    <li class="nav-item has-treeview {% if md.base_url in request.path %}menu-open{% endif %}">
+        <a href="#" class="nav-link">
+            <i class="nav-icon {{ md.icon_classes }}"></i>
+            <p>
+                {{ md.menu }}
+                <i class="right fa fa-angle-left"></i>
+            </p>
+        </a>
+        {% if md.items %}
+        <ul class="nav nav-treeview">
+            {% for item in md.items %}
+            <li class="nav-item">
+            {% url item.link as link_url %}
+                <a href="{{ link_url }}" class="nav-link {% if link_url in request.path %}active{% endif %}">
+                    <i class="fa fa-circle-o nav-icon"></i>
+                    <p>{{ item.label }}</p>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>

@@ -1,5 +1,7 @@
 ---
 - menu: Cadastros
+  base_url: /base/
+  icon_classes: far fa-address-card
   items:
   - label: Pessoa Física
     link: 'sagii_base:pessoafisica-list'

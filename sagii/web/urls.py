@@ -37,6 +37,8 @@ patterns = [
     path('base/', include('sagii.apps.base.urls')),
 
     path('rh/', include('sagii.apps.recursos_humanos.urls')),
+    
+    path('academico/', include('sagii.apps.academico.urls')),
 
     path('', RedirectView.as_view(pattern_name='sagii_base:home'), name='home'),
 ]

@@ -1,4 +1,4 @@
-{% load static %}
+{% load static html_utils %}
 {% load message_extras %}
 <!DOCTYPE html>
 <html>
@@ -10,7 +10,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  {% comment %} <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> {% endcomment %}
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
@@ -170,10 +171,9 @@
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
+        {% menu %}
+{% comment %}         
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li></li>
-        </ul>
-        {% comment %} <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview">
@@ -471,7 +471,8 @@
               <p>Informational</p>
             </a>
           </li>
-        </ul> {% endcomment %}
+        </ul> 
+ {% endcomment %}
       </nav>
       <!-- /.sidebar-menu -->
     </div>

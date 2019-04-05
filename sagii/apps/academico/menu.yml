@@ -1,7 +1,9 @@
 ---
 - menu: Acadêmico
+  base_url: /academico/
+  icon_classes: fas fa-graduation-cap
   items:
   - label: Aluno
-    link: 'sagii_base:pessoafisica-list'
+    link: 'sagii_academico:aluno-list'
   - label: Professor
-    link: 'sagii_base:pessoajuridica-list'
+    link: 'sagii_academico:professor-list'
