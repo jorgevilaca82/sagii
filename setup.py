@@ -19,13 +19,14 @@ setup(
     author='Jorge Vilaça',
     author_email='jorge.vilaca@gmail.com',
     install_requires = [
-        "Django>=2.2",
+        "Django>=2.2,<3.0",
         "django-localflavor>=2.1",
         # "cached-property==1.5.1", # TODO: Interessante, estudar uso!
         "pytz==2018.9",
         "PyYAML>=3.13",
         "sqlparse>=0.2.4",
         "django-crispy-forms>=1.7.2",
+        "psycopg2>=2.7,<3.0"
     ],
     classifiers=[
         'Environment :: Web Environment',

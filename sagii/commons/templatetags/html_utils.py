@@ -27,8 +27,7 @@ def menu(context):
     for a in _apps:
         _path = apps.get_app_config(a).path
         _menu_path = os.path.join(_path, 'menu.yml')
-        exists = os.path.isfile(_menu_path)
-        if exists:
+        if os.path.exists(_menu_path):
             with open(_menu_path, 'rt', encoding='utf8') as stream:
                 _menu_data = yaml.load(stream)
                 menu_data += (_menu_data)
