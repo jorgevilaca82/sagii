@@ -52,17 +52,6 @@ class Professor(rhm.Funcionario):
     titulacao = models.IntegerField(choices=PROFESSOR_TITULACAO_CHOICES)
 
 
-class Campus(bm.PessoaJuridica):
-    pass
-
-
-class DiretoriaEnsino(adm.Setor):
-    class Meta:
-        pass
-
-    diretor = models.ForeignKey(rhm.Funcionario, on_delete=models.PROTECT)
-
-
 class Curso(models.Model):
     class Meta:
         pass
