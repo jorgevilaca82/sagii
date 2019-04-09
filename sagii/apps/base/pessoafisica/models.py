@@ -9,6 +9,22 @@ from sagii.commons.constants import ONE_SPACE
 from ..pessoa.models import Pessoa
 
 
+class CondicaoLimitante(models.Model):
+
+    class Tipo(IntEnum):
+        DEFICIENCIA = auto()
+        TRANSTORNO = auto()
+
+    TIPO_CHOICES = (
+        (Tipo.DEFICIENCIA.value, _('Deficiência')),
+        (Tipo.TRANSTORNO.value, _('Transtorno')),
+    )
+
+    tipo = models.IntegerField(choices=TIPO_CHOICES)
+
+    descricao = models.CharField(max_length=140)
+
+
 class PessoaFisica(Pessoa):
     class Meta:
         verbose_name = _('Pessoa Física')
@@ -98,6 +114,8 @@ class PessoaFisica(Pessoa):
         through_fields=('responsavel', 'dependente'),
         symmetrical=False
     )
+
+    condicoes_limitantes = models.ManyToManyField(CondicaoLimitante)
 
     @property
     def nome(self):

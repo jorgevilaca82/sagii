@@ -3,12 +3,10 @@ from .. import *
 
 DEBUG = False
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
-    }
-}
+DB_DEFAULT_ENGINE = 'django.db.backends.postgresql'
+DB_DEFAULT_NAME = 'postgres'
+DB_DEFAULT_USER = 'postgres'
+DB_DEFAULT_HOST = 'db'
+DB_DEFAULT_PORT = 5432
+
+update_db_config()
