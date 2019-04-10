@@ -8,4 +8,4 @@ RUN pip install setuptools
 RUN python var/django-localflavor-master/setup.py install
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
-COPY . /code/
+# COPY . /code/

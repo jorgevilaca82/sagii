@@ -26,7 +26,7 @@ setup(
         "PyYAML>=3.13",
         "sqlparse>=0.2.4",
         "django-crispy-forms>=1.7.2",
-        "psycopg2>=2.7,<3.0"
+        "psycopg2>=2.8,<3.0"
     ],
     classifiers=[
         'Environment :: Web Environment',

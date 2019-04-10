@@ -38,8 +38,38 @@ class UnidadeDeEnsino(bm.UnidadeOrganizacional):
     por_tipo = PorTipoQuerySet.as_manager()
 
 
-class DiretoriaEnsino(AuditableModel):
+class AreaUnidadeDeEnsino(AuditableModel):
     class Meta:
         pass
 
-    diretor = models.ForeignKey(bm.PessoaFisica, on_delete=models.PROTECT)
+    class Tipo(IntEnum):
+        DIRETORIA_DE_ENSINO = auto()
+        COORDENACAO_DE_CURSO = auto()
+
+    TIPO_CHOICES = (
+        (Tipo.DIRETORIA_DE_ENSINO.value, _('Diretoria de Ensino')),
+        (Tipo.COORDENACAO_DE_CURSO.value, _('Coordenação de Curso')),
+    )
+
+    tipo = models.IntegerField(choices=TIPO_CHOICES)
+
+    unidade_de_ensino = models.ForeignKey(UnidadeDeEnsino, on_delete=models.PROTECT)
+
+    area_superior = models.ForeignKey(
+        'self',
+        on_delete=models.PROTECT,
+        related_name='sub_areas',
+        null=True
+    )
+
+    responsavel = models.ForeignKey(bm.PessoaFisica, on_delete=models.PROTECT)
+
+    class PorTipoQuerySet(models.QuerySet):
+
+        def diretorias_de_ensino(self):
+            return self.filter(tipo=AreaUnidadeDeEnsino.Tipo.DIRETORIA_DE_ENSINO)
+
+        def coordenacao_de_curso(self):
+            return self.filter(tipo=AreaUnidadeDeEnsino.Tipo.COORDENACAO_DE_CURSO)
+
+    por_tipo = PorTipoQuerySet.as_manager()

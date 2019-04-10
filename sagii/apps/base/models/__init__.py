@@ -8,7 +8,7 @@ from ..pessoa.models import (
 )
 from ..pessoafisica.models import PessoaFisica, RelacaoDependencia
 from ..pessoajuridica.models import PessoaJuridica
-from ..unidade_organizacional import UnidadeOrganizacional
+from ..unidade_organizacional.models import UnidadeOrganizacional
 
 __all__ = [
     'Pessoa',

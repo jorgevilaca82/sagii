@@ -5,7 +5,8 @@ from .localflavor import *
 from .sagii import *
 
 def update_db_config():
-    db_globals = [(k, v) for k, v in globals().items() if k.startswith('DB_')]
+    global DATABASES
+    db_globals = { k: v for k, v in globals().items() if k.startswith('DB_')}
     d = {}
     for k, v in db_globals.items():
         splited = k.split('_')
