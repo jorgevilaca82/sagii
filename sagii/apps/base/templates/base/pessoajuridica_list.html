@@ -1,23 +1,37 @@
-{% extends default_layout %} {% load i18n admin_urls static admin_list model_utils %} {% block content %}
-<div class="row">
-    <div class="col-lg-12 col-md-6 col-sm-6">
-        <h2>
-            {% block site_title %} {% block page_title %} {{ opts.verbose_name_plural|capfirst }} {% endblock page_title %} {% endblock site_title %}
-        </h2>
-        <table class="table table-condensed">
-            <tbody>
-                {% for pessoajuridica in pessoajuridica_list %}
-                <tr>
-                    <td>{{ pessoajuridica.cnpj }}</td>
-                    <td>{{ pessoajuridica.razao_social }}</td>
-                    <td>
-                        <a href="{{ pessoajuridica.get_absolute_url }}">outrso detalhes</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
+{% extends default_layout %}
+{% load model_utils %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">{{ opts.verbose_name_plural|title }}</h3>
+
+        <div class="card-tools">
+            <a class="btn btn-sm btn-success mr-2" href="{% url 'sagii_base:pessoajuridica-create' %}">Cadastrar novo</a>
+            {% show_pagination class='pagination pagination-sm m-0 float-right' %}
+        </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+        <table class="table">
+            <tr>
+                <th style="width: 10px">#</th>
+                <th>CNPJ</th>
+                <th>Razão Social</th>
+                <th>&nbsp;</th>
+            </tr>
+            {% for pessoajuridica in pessoajuridica_list %}
+            <tr>
+                <td>{{ pessoajuridica.id }}</td>
+                <td>{{ pessoajuridica.cnpj }}</td>
+                <td>{{ pessoajuridica.razao_social }}</td>
+                <td>
+                    <a class="btn btn-sm btn-light" href="{% url 'sagii_base:pessoajuridica-update' pk=pessoajuridica.id %}">Editar</a>
+                    <a class="btn btn-sm btn-light" href="{% url 'sagii_base:pessoajuridica-detail' pk=pessoajuridica.id %}">Detalhes</a>
+                </td>
+            </tr>
+            {% endfor %}
         </table>
     </div>
+    <!-- /.card-body -->
 </div>
-{% show_pagination %}
-{% endblock %}
+{% endblock content %}

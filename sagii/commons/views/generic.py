@@ -17,7 +17,6 @@ class ListView(ModelOptsMixin, generic.ListView):
 
 
 class CreateView(SuccessMessageMixin, ModelOptsMixin, generic.CreateView):
-    template_name = 'base/generic_form.html'
     extra_context = {'action': _('Cadastrar'),}
 
     def post(self, request, *args, **kwargs):
@@ -25,13 +24,12 @@ class CreateView(SuccessMessageMixin, ModelOptsMixin, generic.CreateView):
         return super().post(request, *args, **kwargs)
 
 
-class DetailView(generic.DetailView):
+class DetailView(ModelOptsMixin, generic.DetailView):
     pass
 
 
 class UpdateView(SuccessMessageMixin, ModelOptsMixin, generic.UpdateView):
     model = None
-    template_name = 'base/generic_form.html'
     extra_context = {'action': _('Editar'),}
 
 

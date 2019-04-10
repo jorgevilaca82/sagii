@@ -1,0 +1,5 @@
+{% load model_utils html_utils %}
+<dt class="col-sm-2">{% fvb pessoajuridica 'cnpj' as f %} {{f|title}}</dt>
+<dd class="col-sm-10">{{ pessoajuridica.cnpj }}</dd>
+<dt class="col-sm-2">{{'razao_social'|title}}</dt>
+<dd class="col-sm-10">{{ pessoajuridica.razao_social }}</dd>

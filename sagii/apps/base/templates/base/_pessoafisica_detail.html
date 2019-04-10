@@ -1,0 +1,19 @@
+{% load model_utils html_utils %}
+<dt class="col-sm-2">{% fvb pessoafisica 'cpf' as f %} {{f|title}}</dt>
+<dd class="col-sm-10">{{ pessoafisica.cpf }}</dd>
+<dt class="col-sm-2">{{'nome'|title}}</dt>
+<dd class="col-sm-10">{{ pessoafisica.nome }}</dd>
+<dt class="col-sm-2">{% fvb pessoafisica 'sexo' as f %} {{f|title}}</dt>
+<dd class="col-sm-10">{{ pessoafisica.get_sexo_display }}</dd>
+<dt class="col-sm-2">{% fvb pessoafisica 'estado_civil' as f %} {{f|title}}</dt>
+<dd class="col-sm-10">{{ pessoafisica.get_estado_civil_display }}</dd>
+<dt class="col-sm-2">{% fvb pessoafisica 'tipo_sanguineo' as f %} {{f|title}}</dt>
+<dd class="col-sm-10">{{ pessoafisica.tipo_sanguineo }}</dd>
+<dt class="col-sm-2">{% fvb pessoafisica 'natural_cidade' as f %} {{f|title}}</dt>
+<dd class="col-sm-10">{{ pessoafisica.natural_cidade }}</dd>
+<dt class="col-sm-2">{% fvb pessoafisica 'natural_uf' as f %} {{f|title}}</dt>
+<dd class="col-sm-10">{{ pessoafisica.natural_uf }}</dd>
+<dt class="col-sm-2">{% fvb pessoafisica 'nacionalidade' as f %} {{f|title}}</dt>
+<dd class="col-sm-10">{{ pessoafisica.get_nacionalidade_display }}</dd>
+<dt class="col-sm-2">{% fvb pessoafisica 'falecido' as f %} {{f|title}}</dt>
+<dd class="col-sm-10">{{ pessoafisica.falecido|yesno:"sim,não" }}</dd>
