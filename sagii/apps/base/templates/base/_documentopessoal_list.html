@@ -1,0 +1,16 @@
+<table class="table">
+    <tr>
+        <th style="width: 10px">#</th>
+        <th>Tipo</th>
+        <th>Valor</th>
+        <th>Observações</th>
+    </tr>
+    {% for documentopessoal in documentopessoal_list %}
+    <tr>
+        <td>{{ documentopessoal.pk }}</td>
+        <td>{{ documentopessoal.tipo }}</td>
+        <td>{{ documentopessoal.valor }}</td>
+        <td>{{ documentopessoal.observacoes|truncatewords:3 }}</td>
+    </tr>
+    {% endfor %}
+</table>

@@ -1,0 +1,14 @@
+<table class="table">
+    <tr>
+        <th style="width: 10px">#</th>
+        <th>Tipo</th>
+        <th>Valor</th>
+    </tr>
+    {% for contatosocial in contatosocial_list %}
+    <tr>
+        <td>{{ contatosocial.pk }}</td>
+        <td>{{ contatosocial.tipo }} <i class="fa fa-{{ contatosocial.tipo|lower }}"></i></td>
+        <td>{{ contatosocial.valor }}</td>
+    </tr>
+    {% endfor %}
+</table>

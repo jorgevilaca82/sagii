@@ -1,4 +1,5 @@
 {% extends default_layout %} {% load model_utils html_utils %} {% block content %}
+{% build_qs redirect=request.get_full_path as qs %}
 <div class="row">
     <div class="col-12">
         <!-- Custom Tabs -->
@@ -9,7 +10,7 @@
                     <li class="nav-item"><a class="nav-link active" href="#tab_geral" data-toggle="tab">Geral</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tab_enderecos" data-toggle="tab">Endereços</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tab_telefones" data-toggle="tab">Telefones</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tab_contatossociais" data-toggle="tab">Contatos Socias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_contatossociais" data-toggle="tab">Contatos Sociais</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tab_outrosdocumentos" data-toggle="tab">Outros Documentos</a></li>
                 </ul>
             </div>
@@ -27,9 +28,8 @@
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="tab_enderecos">
                         <h3>Endereços</h3>
-                        <div class="card-tools">
-                            {% build_qs redirect=request.get_full_path as qs %}
-                            <a class="btn btn-sm btn-success mr-2" href="{% url 'sagii_base:pessoa-endereco-create' pessoa_id=object.pk %}{{qs|safe}}">Cadastrar novo</a>
+                        <div class="card-tools">                            
+                            <a class="btn btn-sm btn-success mr-2" href="{% url 'sagii_base:pessoa-endereco-create' pessoa_id=object.pk %}{{qs|safe}}#tab_enderecos">Cadastrar novo</a>
                         </div>
                         count: {{ object.base_endereco_related.count }}
                         {% include 'base/_endereco_list.html' with endereco_list=object.base_endereco_related.all %}
@@ -37,35 +37,31 @@
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="tab_telefones">
                         <h3>Telefones</h3>
+                        <div class="card-tools">
+                            <a class="btn btn-sm btn-success mr-2" href="{% url 'sagii_base:pessoa-telefone-create' pessoa_id=object.pk %}{{qs|safe}}#tab_telefones">Cadastrar novo</a>
+                        </div>
                         count: {{ object.base_telefone_related.count }}
-                        <ul>
-                        {% for telefone in object.base_telefone_related.all %}
-                            <li>{{ telefone }}</li>
-                        {% endfor %}
-                        </ul>
+                        {% include 'base/_telefone_list.html' with telefone_list=object.base_telefone_related.all %}
                     </div>
                     <div class="tab-pane" id="tab_dependentes">
                         <h3>Dependentes</h3>
                         count: {{ object.base_relacaodependencia_related.count }}
                     </div>
                     <div class="tab-pane" id="tab_contatossociais">
-                        <h3>Contatos Socias</h3>
+                        <h3>Contatos Sociais</h3>
+                        <div class="card-tools">
+                            <a class="btn btn-sm btn-success mr-2" href="{% url 'sagii_base:pessoa-contatosocial-create' pessoa_id=object.pk %}{{qs|safe}}#tab_contatossociais">Cadastrar novo</a>
+                        </div>
                         count: {{ object.base_contatosocial_related.count }}
+                        {% include 'base/_contatosocial_list.html' with contatosocial_list=object.base_contatosocial_related.all %}
                     </div>
                     <div class="tab-pane" id="tab_outrosdocumentos">
                         <h3>Outros Documentos</h3>
-                        <!-- count: {{ object.base_documentopessoal_related.count }} -->
-                        <dl class="dl-horizontal row">
-                            {% for doc in object.base_documentopessoal_related.all %}
-                            <dt class="col-sm-2">{{ doc.tipo }}</dt>
-                            <dd class="col-sm-10">{{ doc.valor }}</dd>
-                            {% endfor %}
-                        </dl>
-
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#outrosdocumentosModal">
-                            Adic. Doc.
-                        </button>
+                        <div class="card-tools">
+                            <a class="btn btn-sm btn-success mr-2" href="{% url 'sagii_base:pessoa-documento-create' pessoa_id=object.pk %}{{qs|safe}}#tab_outrosdocumentos">Cadastrar novo</a>
+                        </div>
+                        count: {{ object.base_documentopessoal_related.count }}
+                        {% include 'base/_documentopessoal_list.html' with documentopessoal_list=object.base_documentopessoal_related.all %}
                     </div>
                     <!-- /.tab-pane -->
                 </div>
@@ -79,40 +75,18 @@
 </div>
 
 
-
-<!-- Modal -->
-<div class="modal fade" id="outrosdocumentosModal" tabindex="-1" role="dialog" aria-labelledby="outrosdocumentosModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="outrosdocumentosModalLabel">Adicionar Documento</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                {{ docs_formset.as_table }}
-                <hr>
-                <form method="post">
-                    {{ docs_formset.management_form }}
-                    <table>
-                        {% for form in docs_formset %} {{ form }} {% endfor %}
-                    </table>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-primary">Salvar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 {% endblock content %} {% block scripts %}
 <script>
     $(function() {
+        var activeTab = window.localStorage.getItem('activeTab');
+        if (window.location.hash) {
+            activeTab = window.location.hash
+            window.location.hash = ''
+        }
+
         $('a[data-toggle="tab"]').on('click', (e) => {
             window.localStorage.setItem('activeTab', $(e.target).attr('href'));
         });
-        var activeTab = window.localStorage.getItem('activeTab');
         if (activeTab) {
             $('li.nav-item a[href="' + activeTab + '"]').tab('show');
             window.localStorage.removeItem("activeTab");

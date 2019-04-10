@@ -98,9 +98,13 @@ class DocumentoForm(ModelForm):
     class Meta:
         model = bm.DocumentoPessoal
         exclude = ("pessoa",)
+        widgets = {
+            'tipo': SelectWidget,
+        }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, documentos_disabled=[], **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['tipo'].widget.disabled_choices = documentos_disabled
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(

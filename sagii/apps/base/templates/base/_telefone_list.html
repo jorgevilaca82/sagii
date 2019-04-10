@@ -1,0 +1,17 @@
+{% load model_utils %}
+<table class="table">
+    <tr>
+        <th style="width: 10px">#</th>
+        <th>Tipo</th>
+        <th>Número</th>
+        <th>Observações</th>
+    </tr>
+    {% for telefone in telefone_list %}
+    <tr>
+        <td>{{ telefone.pk }}</td>
+        <td><i class="fa fa-phone"></i> {{ telefone.get_tipo_display }}</td>
+        <td>{{ telefone.numero }}</td>
+        <td>{{ telefone.observacoes|truncatewords:5 }}</td>
+    </tr>
+    {% endfor %}
+</table>

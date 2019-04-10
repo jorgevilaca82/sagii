@@ -39,6 +39,7 @@ class ListView(PessoaQuerySetFilterMixin, generic.ListView):
 
 class CreateView(generic.CreateView):
     pessoa = None
+    template_name = 'base/generic_form.html'
 
     def dispatch(self, *args, **kwargs):
         self.pessoa = find_pessoa(self.kwargs['pessoa_id'])
@@ -50,8 +51,10 @@ class CreateView(generic.CreateView):
         self.object.save()
         return super().form_valid(form)
 
+
 class DetailView(PessoaQuerySetFilterMixin, generic.DetailView):
     pass
+
 
 class UpdateView(generic.UpdateView):
     pass
