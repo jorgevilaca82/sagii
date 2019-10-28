@@ -4,11 +4,30 @@ services:
   db:
     image: postgres
   web:
+    environment:
+      - DJANGO_DEBUG
+      - DJANGO_ALLOWED_HOSTS
+      - DJANGO_SETTINGS_MODULE
+      - SAGII_DB_DEFAULT_ENGINE
+      - SAGII_DB_DEFAULT_NAME
+      - SAGII_DB_DEFAULT_USER
+      - SAGII_DB_DEFAULT_PASSWORD
+      - SAGII_DB_DEFAULT_HOST
+      - SAGII_DB_DEFAULT_PORT
     build: .
-    command: python manage.py runserver 0.0.0.0:8000 --settings=sagii.web.settings.enviroments.development
+    command: >
+      bash -c "yarn &&
+      yarn build &&
+      mkdir -p static_dev &&
+      pip install -r requirements.txt &&
+      python ./manage.py migrate &&
+      python ./manage.py collectstatic --noinput &&
+      cp -r static/* static_dev &&
+      python manage.py loaddata ./sagii/apps/base/fixtures/documentopessoatipo.yaml &&
+      python ./manage.py runserver 0.0.0.0:${DJANGO_PORT}"
     volumes:
       - .:/code
     ports:
-      - "8000:8000"
+      - "${DJANGO_PORT}:${DJANGO_PORT}"
     depends_on:
       - db

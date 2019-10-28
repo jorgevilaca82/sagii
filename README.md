@@ -22,13 +22,12 @@ python manage.py collectstatic
 Rode as migrações para que o schema do banco de dados esteja sincronizado com o código.
 
 ```console
-python manage.py collectstatic
+python manage.py migrate
 ```
 
 Carregue o banco de dados com os dados iniciais globais e de cada módulo que desejar. Exemplos:
 
 ```
-$ python manage.py loaddata ./initial-data.yml
 $ python manage.py loaddata ./sagii/apps/base/fixtures/documentopessoatipo.yml
 ```
 
@@ -52,3 +51,18 @@ Para executar o projeto em modo desenvolvimento rode o seguite comando no termin
 ```
 python .\manage.py runserver --settings=sagii.web.settings.enviroments.development
 ```
+
+#### Docker
+
+Para executar o projeto utilizando docker:
+
+```
+docker-compose up
+```
+
+Crie um super usuário:
+
+```
+docker exec -it sagii_web_1 python manage.py createsuperuser
+```
+onde `sagii_web_1` é o nome do container web criado.

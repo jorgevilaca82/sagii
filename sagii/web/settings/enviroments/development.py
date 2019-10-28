@@ -1,24 +1,17 @@
+import os
 from .. import *
 
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-DEBUG = True
-
-DB_DEFAULT_ENGINE = 'django.db.backends.postgresql'
-DB_DEFAULT_NAME = 'sagii'
-DB_DEFAULT_USER = 'postgres'
-DB_DEFAULT_PASSWORD = ''
-DB_DEFAULT_HOST = 'localhost'
-DB_DEFAULT_PORT = 32800
-
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '').split()
 
 DATABASES['default'] = {
-    'ENGINE':   DB_DEFAULT_ENGINE,
-    'NAME':     DB_DEFAULT_NAME,
-    'USER':     DB_DEFAULT_USER,
-    'PASSWORD': DB_DEFAULT_PASSWORD,
-    'HOST':     DB_DEFAULT_HOST,
-    'PORT':     DB_DEFAULT_PORT,
+    'ENGINE':   os.environ.get('SAGII_DB_DEFAULT_ENGINE'),
+    'NAME':     os.environ.get('SAGII_DB_DEFAULT_NAME'),
+    'USER':     os.environ.get('SAGII_DB_DEFAULT_USER'),
+    'PASSWORD': os.environ.get('SAGII_DB_DEFAULT_PASSWORD'),
+    'HOST':     os.environ.get('SAGII_DB_DEFAULT_HOST'),
+    'PORT':     os.environ.get('SAGII_DB_DEFAULT_PORT'),
 }
-
 
 # update_db_config()
