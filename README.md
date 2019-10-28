@@ -57,8 +57,11 @@ python .\manage.py runserver --settings=sagii.web.settings.enviroments.developme
 Para executar o projeto utilizando docker:
 
 ```
-docker-compose up
+$ yarn && yarn build
+$ cp .env.sample .env  
+$ docker-compose up --build
 ```
+use a opção `--build` toda vez que quiser reconstruir as imagens, caso contrário o paramêtro é opcional.
 
 Crie um super usuário:
 
