@@ -1,3 +1,3 @@
 from .base import *
 
-INSTALLED_APPS += ['localflavor', ]
+INSTALLED_APPS.append('localflavor')

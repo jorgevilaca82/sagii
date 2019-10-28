@@ -12,7 +12,7 @@ sagii_apps = [
     'sagii.apps.recursos_humanos',
 ]
 
-INSTALLED_APPS += sagii_apps
+INSTALLED_APPS.extend(sagii_apps)
 
 context_processors = [
     'sagii.commons.context_processors.app_settings',
